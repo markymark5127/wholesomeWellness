@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormComponent } from './form/form.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { HomeComponent } from './home/home.component';
 
 
 
@@ -26,6 +27,7 @@ import { ScheduleComponent } from './schedule/schedule.component';
     ContactComponent,
     FormComponent,
     ScheduleComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
