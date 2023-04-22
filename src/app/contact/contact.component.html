@@ -1,0 +1,37 @@
+<img width="50%" alt="Angular Logo" style="float: right; padding-left: 5vw; padding-right: 5vw;" src="/assets/dawnPic2.jpeg"/>
+<h1 class="heading">Leave Me A Message!</h1>
+<p>
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput placeholder="Placeholder">
+    <mat-icon matSuffix>emoji_emotions</mat-icon>
+    <mat-hint>First and Last Name</mat-hint>
+  </mat-form-field>
+</p>
+<p>
+  <mat-form-field appearance="fill">
+    <mat-label>Your eMail</mat-label>
+    <input matInput placeholder="Placeholder">
+    <mat-icon matSuffix>email</mat-icon>
+    <mat-hint>Your eMail address</mat-hint>
+  </mat-form-field>
+</p>
+<p>
+  <mat-form-field appearance="fill">
+    <mat-label>Phone number</mat-label>
+    <input matInput placeholder="Placeholder">
+    <mat-icon matSuffix>phone</mat-icon>
+    <mat-hint>Include area code</mat-hint>
+  </mat-form-field>
+</p>
+<p>
+  <mat-form-field appearance="fill">
+    <mat-label>Message</mat-label>
+    <input matInput #message maxlength="256" placeholder="Ex. I need help with...">
+    <mat-icon matSuffix>chat</mat-icon>
+    <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+  </mat-form-field>
+</p>
+<p>
+  <button mat-raised-button color="primary">Submit</button>
+</p>
