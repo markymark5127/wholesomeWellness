@@ -322,13 +322,14 @@
     margin-top: 10vh;
     margin-left: 10vw;
     margin-right: 10vw;
-    padding-top: 5vh; 
-    padding-right: 5vw; 
+    padding-top: 5vh;
+    padding-right: 5vw;
     padding-left: 5vw;
     display: flex;
   }
- 
+
 </style>
+<span *ngIf="!this.isMobile;else sideNav">
   <!-- Toolbar -->
   <div class="toolbar" role="banner">
     <div>
@@ -351,7 +352,41 @@
   <div class="paper">
     <router-outlet></router-outlet>
     <div style="background-color: #DCF7D0; padding-top: 5%; padding-right: 5%; padding-left: 5%; padding-bottom: 0; height: 100%;">
-      
     </div>
-</div>
+  </div>
+</span>
+
+<!-- Mobile Navigation -->
+<ng-template #sideNav>
+  <!-- Side Menu -->
+  <mat-sidenav-container class="example-container" (backdropClick)="close()">
+    <mat-sidenav #sidenav (keydown.escape)="close()" disableClose>
+      <p><button class="nav-button" mat-button routerLink="/home" (click)="close()">Home</button></p>
+      <p><button class="nav-button" mat-button routerLink="/availableServices" (click)="close()">Services</button></p>
+      <p><button class="nav-button" mat-button routerLink="/schedule" (click)="close()">Book Appointment</button></p>
+      <p><button class="nav-button" mat-button routerLink="/aboutMe" (click)="close()">About Me</button></p>
+      <p><button class="nav-button"mat-button routerLink="/contact" (click)="close()">Contact</button></p>
+    </mat-sidenav>
+
+    <!-- Main Content -->
+    <mat-sidenav-content>
+      <mat-toolbar color= #DCF7D0 class="app-toolbar">
+        <mat-toolbar-row>
+          <button mat-icon-button (click)="sidenav.open()">
+            <mat-icon svgIcon="menu" aria-hidden="false" aria-label="Menu SVG icon"></mat-icon>
+          </button>
+          <img routerLink="/home" src="/assets/icononly_transparent_nobuffer.png" class="imging logo" alt="image caption"/>
+          <span routerLink="/home" class="imging logo" >Busy Bee Boutique</span>
+          <span class="example-spacer"></span>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="paper">
+        <router-outlet></router-outlet>
+        <div style="background-color: #DCF7D0; padding-top: 5%; padding-right: 5%; padding-left: 5%; padding-bottom: 0; height: 100%;">
+        </div>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-template>
+
 
