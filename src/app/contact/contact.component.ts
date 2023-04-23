@@ -32,12 +32,12 @@ export class ContactComponent{
     let data = {
       name: this.name,
       email: this.email,
-      subject: 'Contact',
-      content: 'phonenumber:' + this.number + ' ' + this.content
+      subject: 'Message from ' + this.name,
+      content: 'Phone Number: ' + this.number + ' Message: ' + this.content
     };
 
     this.http.post('https://formspree.io/f/xayzadvz', JSON.stringify(data))
-      .subscribe(response => {}, err => { alert('There was an error sending your message. Please try again.'); });
+      .subscribe(response => {alert('Message Sent!');}, err => { alert('There was an error sending your message. Please try again.'); });
 
     this.email = '';
     this.name = '';
