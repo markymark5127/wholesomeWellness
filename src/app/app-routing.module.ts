@@ -15,10 +15,11 @@ const routes: Routes = [
   { path: 'availableServices', component: AvailableServicesComponent},
   { path: 'home', component: HomeComponent},
   { path: '',   redirectTo: '/home', pathMatch: 'full' },
-  { path: '/home',   redirectTo: '/home', pathMatch: 'full' },
-  { path: '/aboutMe',   redirectTo: '/aboutMe', pathMatch: 'full' },
-  { path: '/contact',   redirectTo: '/contact', pathMatch: 'full' },
-  { path: '/schedule',   redirectTo: '/schedule', pathMatch: 'full' },
+  { path: 'home',   redirectTo: '/home', pathMatch: 'full' },
+  { path: 'aboutMe',   redirectTo: '/aboutMe', pathMatch: 'full' },
+  { path: 'contact',   redirectTo: '/contact', pathMatch: 'full' },
+  { path: 'schedule',   redirectTo: '/schedule', pathMatch: 'full' },
+  { path: 'availableServices',   redirectTo: '/schedule', pathMatch: 'full' },
 ];
 
 @NgModule({

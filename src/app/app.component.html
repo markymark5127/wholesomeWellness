@@ -309,7 +309,7 @@
   .toolbar {
 
     text-align: center;
-    position: absolute;
+    /*position: absolute;*/
     width: 100vw;
     background-color: white;
     color: black;
@@ -318,12 +318,16 @@
     font-size: x-large;
   }
   .paper{
-    background-color: white;
-    padding-top: 30vh;
-    padding-left: 10vw;
-    padding-right: 10vw;
-
+    background-color: #DCF7D0;
+    margin-top: 10vh;
+    margin-left: 10vw;
+    margin-right: 10vw;
+    padding-top: 5vh; 
+    padding-right: 5vw; 
+    padding-left: 5vw;
+    display: flex;
   }
+ 
 </style>
   <!-- Toolbar -->
   <div class="toolbar" role="banner">
@@ -335,16 +339,19 @@
         src="/assets/icononly_transparent_nobuffer.png"
       />
       <h1 style="color:#5CE0E6; font-weight: bold; font-size: xx-large;">Wholesoul Wellness</h1>
+      <h3>1600 6th Ave Suite 103, York Pa, 17403 <b>|</b> (717) 495-6303 <b>|</b> wholesoulyork@gmail.com</h3>
     </div>
         <button mat-button color="secondary" routerLink="/home">Home</button>
         <!--<button mat-button color="secondary" routerLink="/form">Form</button>-->
+        <button mat-button color="secondary" routerLink="/availableServices">Services</button>
         <button mat-button color="secondary" routerLink="/schedule">Book Appointment</button>
         <button mat-button color="secondary" routerLink="/aboutMe">About Me</button>
         <button mat-button color="secondary" routerLink="/contact">Contact</button>
   </div>
-<div class="paper">
-  <div style="background-color: #DCF7D0; padding-top: 5%; padding-right: 5%; padding-left: 5%; padding-bottom: 0; height: 100vh;">
+  <div class="paper">
     <router-outlet></router-outlet>
-  </div>
+    <div style="background-color: #DCF7D0; padding-top: 5%; padding-right: 5%; padding-left: 5%; padding-bottom: 0; height: 100%;">
+      
+    </div>
 </div>
 
