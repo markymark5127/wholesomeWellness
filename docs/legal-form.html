@@ -29,7 +29,7 @@
     <section class="intro">
       <h2>Client Intake & Consent Form</h2>
       <p><strong>In preparation for your Lymphatic Therapy session:</strong> Please refrain from wearing any lotions and deodorant. Be sure to hydrate the day before therapy and the day of therapy, and wear cotton underwear if possible.</p>
-      <form target="_blank" action="https://formsubmit.co/3bc520c1e6b1a91be7285bdead834e0a" method="POST">
+      <form action="https://formsubmit.co/3bc520c1e6b1a91be7285bdead834e0a" method="POST">
         <input type="hidden" name="_template" value="table">
         <input type="hidden" name="_next" value="https://markymark5127.github.io/wholesomeWellness/thank-you.html">
         <input type="hidden" name="_autoresponse" value="Thanks for submitting your form! We’ll be in touch soon.">
@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 119-->
+  <!--Signature Pad 125-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const privacyCanvas = document.getElementById('privacy-signature-pad');
@@ -200,11 +200,12 @@
           return;
         }
 
-        // Wrap base64 in <img> tag so FormSubmit shows actual image
-        privacyInput.value = `<img src="${privacyPad.toDataURL()}" width="300"/>`;
-        waiverInput.value = `<img src="${waiverPad.toDataURL()}" width="300"/>`;
-        clientInput.value = `<img src="${clientPad.toDataURL()}" width="300"/>`;
+        // Plain truncated Base64 (first 100 characters is enough to prove it's filled)
+        privacyInput.value = privacyPad.toDataURL().substring(0, 100);
+        waiverInput.value = waiverPad.toDataURL().substring(0, 100);
+        clientInput.value = clientPad.toDataURL().substring(0, 100);
       });
+
     });
   </script>
 
