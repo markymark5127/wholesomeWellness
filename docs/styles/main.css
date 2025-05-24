@@ -75,6 +75,8 @@ nav ul li a {
   overflow: hidden;
 }
 
+
+/*
 .hero-bg-logo {
   position: absolute;
   top: 10%;
@@ -83,7 +85,19 @@ nav ul li a {
   max-width: 90%;
   opacity: 0.05;
   z-index: 0;
+}*/
+/* Hero background logo (updated to fill vertical space better) */
+.hero-bg-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  width: auto;
+  opacity: 0.08;
+  z-index: 0;
 }
+
 
 .hero h1, .hero p, .hero a {
   position: relative;
