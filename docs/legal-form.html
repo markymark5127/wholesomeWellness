@@ -86,7 +86,7 @@
           <label><input type="checkbox" name="Pescatarian">Pescatarian</label>
           <label><input type="checkbox" name="Keto">Low Carb/Keto</label>
         </div>
-        <label style="display: flex; align-items: center;">Other: <input name="Other Diet" style="margin-left: 8px;"></label></div>
+        <label style="display: flex; align-items: center;">Other: <input name="Other Diet" style="margin-left: 8px;"></label>
 
         <h3>Scales</h3>
         <label>Stress (1 = NO STRESS, 10 = EXTREME STRESS):<input type="number" name="Stress" min="1" max="10"></label>
@@ -164,6 +164,10 @@
       const waiverCanvas = document.getElementById('waiver-signature-pad');
       const clientCanvas = document.getElementById('client-signature-pad');
 
+      const privacyInput = document.getElementById('privacy-signature-input');
+      const waiverInput = document.getElementById('waiver-signature-input');
+      const clientInput = document.getElementById('client-signature-input');
+
       if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
         console.error('One or more signature pads could not be found.');
         return;
@@ -178,32 +182,31 @@
       document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
 
       document.querySelector('form').addEventListener('submit', function (e) {
-        let valid = true;
-
-        if (!privacyPad.isEmpty()) {
-          document.getElementById('privacy-signature-input').value = privacyPad.toDataURL();
-        } else {
+        if (privacyPad.isEmpty()) {
           alert("Please provide your privacy signature.");
-          valid = false;
+          e.preventDefault();
+          return;
         }
 
-        if (!waiverPad.isEmpty()) {
-          document.getElementById('waiver-signature-input').value = waiverPad.toDataURL();
-        } else {
+        if (waiverPad.isEmpty()) {
           alert("Please provide your waiver signature.");
-          valid = false;
+          e.preventDefault();
+          return;
         }
 
-        if (!clientPad.isEmpty()) {
-          document.getElementById('client-signature-input').value = clientPad.toDataURL();
-        } else {
+        if (clientPad.isEmpty()) {
           alert("Please provide your client signature.");
-          valid = false;
+          e.preventDefault();
+          return;
         }
 
-        if (!valid) e.preventDefault();
+        // Set hidden input values
+        privacyInput.value = privacyPad.toDataURL();
+        waiverInput.value = waiverPad.toDataURL();
+        clientInput.value = clientPad.toDataURL();
       });
     });
+);
   </script>
 
 
