@@ -44,13 +44,69 @@ nav ul li a {
   font-size: 1.8em;
   cursor: pointer;
 }
+.feature-device {
+  max-width: 700px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 0 20px;
+}
+.feature-device img {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.feature-device p {
+  margin-top: 14px;
+  font-size: 1em;
+  color: #444;
+  font-style: italic;
+}
 
-.hero h1 {
+/*.hero h1 {
   font-size: 2.5em;
   margin-top: 20px;
   color: #3a755b;
 }
 
+.hero p {
+  font-size: 1.2em;
+  margin: 10px 0 30px;
+  color: #4fa3a3;
+}
+.hero-bg-logo {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90%;
+  opacity: 0.05;
+  z-index: 0;
+}*/
+.hero {
+  position: relative;
+  padding: 60px 20px 100px;
+  overflow: hidden;
+}
+.hero-bg-logo {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90%;
+  opacity: 0.05;
+  z-index: 0;
+}
+.hero h1, .hero p, .hero a {
+  position: relative;
+  z-index: 1;
+}
+.hero h1 {
+  font-size: 2.5em;
+  margin-top: 20px;
+  color: #3a755b;
+}
 .hero p {
   font-size: 1.2em;
   margin: 10px 0 30px;
