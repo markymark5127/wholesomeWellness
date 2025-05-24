@@ -1,45 +1,62 @@
-
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Poppins', sans-serif;
   background: #f9fdfb;
   color: #222;
+  font-size: 16px;
 }
+
 .main-header {
   background: linear-gradient(to right, #c1f0c1, #d0f4f7);
   text-align: center;
   padding-bottom: 40px;
 }
+
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 40px;
   background: white;
+  position: relative;
 }
+
 nav ul {
   display: flex;
   list-style: none;
   gap: 20px;
 }
+
 nav ul li a {
   text-decoration: none;
   color: #2a7f5f;
   font-weight: 600;
 }
+
 .logo {
   height: 50px;
 }
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.8em;
+  cursor: pointer;
+}
+
 .hero h1 {
   font-size: 2.5em;
   margin-top: 20px;
   color: #3a755b;
 }
+
 .hero p {
   font-size: 1.2em;
   margin: 10px 0 30px;
   color: #4fa3a3;
 }
+
 .cta {
   background-color: #2a7f5f;
   color: white;
@@ -48,16 +65,108 @@ nav ul li a {
   font-weight: bold;
   border-radius: 5px;
 }
+
 .intro {
   max-width: 800px;
   margin: 60px auto;
   padding: 0 20px;
   text-align: center;
 }
+
 footer {
   background-color: #f0f5f2;
   padding: 20px;
   text-align: center;
   font-size: 0.9em;
   color: #555;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+input, textarea, select, button {
+  font-size: 1em;
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: white;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  nav ul.show {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .hero h1 {
+    font-size: 2em;
+  }
+
+  .hero p, .intro p, footer {
+    font-size: 1em;
+  }
+
+  nav ul {
+    font-size: 1em;
+  }
+}
+
+iframe {
+  width: 100% !important;
+  max-width: 100%;
+  height: 600px;
+  border: none;
+}
+
+
+.brand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.site-name {
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #2a7f5f;
+  white-space: nowrap;
+}
+
+@media (max-width: 768px) {
+  nav {
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .brand-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .site-name {
+    font-size: 1.2em;
+    text-align: left;
+  }
+
+  .menu-toggle {
+    margin-left: auto;
+  }
 }
