@@ -156,49 +156,53 @@
 
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 <script>
-  const privacyPad = new SignaturePad(document.getElementById('privacy-signature-pad'));
-  const waiverPad = new SignaturePad(document.getElementById('waiver-signature-pad'));
-  const recievedPad = new SignaturePad(document.getElementById('recieved-signature-pad'));
-  const clientPad = new SignaturePad(document.getElementById('client-signature-pad'));
+  document.addEventListener('DOMContentLoaded', function () {
+    const privacyCanvas = document.getElementById('privacy-signature-pad');
+    const waiverCanvas = document.getElementById('waiver-signature-pad');
+    const clientCanvas = document.getElementById('client-signature-pad');
 
-  document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
-  document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
-  document.getElementById('clear-recieved-signature').addEventListener('click', () => recievedPad.clear());
-  document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
-
-  document.querySelector('form').addEventListener('submit', function (e) {
-    let valid = true;
-
-    if (!privacyPad.isEmpty()) {
-      document.getElementById('privacy-signature-input').value = privacyPad.toDataURL();
-    } else {
-      alert("Please provide your privacy signature.");
-      valid = false;
+    if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
+      console.error('One or more signature pads could not be found.');
+      return;
     }
 
-    if (!waiverPad.isEmpty()) {
-      document.getElementById('waiver-signature-input').value = waiverPad.toDataURL();
-    } else {
-      alert("Please provide your waiver signature.");
-      valid = false;
-    }
-    if (!recievedPad.isEmpty()) {
-      document.getElementById('recieved-signature-input').value = recievedPad.toDataURL();
-    } else {
-      alert("Please provide your privacy signature.");
-      valid = false;
-    }
+    const privacyPad = new SignaturePad(privacyCanvas);
+    const waiverPad = new SignaturePad(waiverCanvas);
+    const clientPad = new SignaturePad(clientCanvas);
 
-    if (!clientPad.isEmpty()) {
-      document.getElementById('client-signature-input').value = clientPad.toDataURL();
-    } else {
-      alert("Please provide your waiver signature.");
-      valid = false;
-    }
+    document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
+    document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
+    document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
 
-    if (!valid) e.preventDefault();
+    document.querySelector('form').addEventListener('submit', function (e) {
+      let valid = true;
+
+      if (!privacyPad.isEmpty()) {
+        document.getElementById('privacy-signature-input').value = privacyPad.toDataURL();
+      } else {
+        alert("Please provide your privacy signature.");
+        valid = false;
+      }
+
+      if (!waiverPad.isEmpty()) {
+        document.getElementById('waiver-signature-input').value = waiverPad.toDataURL();
+      } else {
+        alert("Please provide your waiver signature.");
+        valid = false;
+      }
+
+      if (!clientPad.isEmpty()) {
+        document.getElementById('client-signature-input').value = clientPad.toDataURL();
+      } else {
+        alert("Please provide your client signature.");
+        valid = false;
+      }
+
+      if (!valid) e.preventDefault();
+    });
   });
 </script>
+
 
 </body>
 
