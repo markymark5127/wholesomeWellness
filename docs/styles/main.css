@@ -240,10 +240,28 @@ iframe {
   height: 600px;
   border: none;
 }
+
 /* Hide the menu toggle icon by default (desktop) */
 .menu-toggle {
   display: none;
 }
+
+.form-link-button {
+  display: inline-block;
+  margin: 16px 0 32px;
+  background-color: #2a7f5f;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.form-link-button:hover {
+  background-color: #256b51;
+}
+
 /* Desktop Styles */
 @media (min-width: 769px) {
   .hero h1 {
