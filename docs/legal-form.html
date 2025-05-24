@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#2a7f5f">
-  <title>Legal Form - Wholesoul Wellness</title>
+  <title>Legal Intake & Consent Form - Wholesoul Wellness</title>
   <link rel="stylesheet" href="styles/main.css">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header class="main-header">
-
     <nav>
-      <div class="brand-wrapper"><img src="assets/logo.png" alt="Wholesoul Wellness Logo" class="logo"/><span class="site-name">Wholesoul Wellness</span></div>
+      <div class="brand-wrapper">
+        <img src="assets/logo.png" alt="Wholesoul Wellness Logo" class="logo"/>
+        <span class="site-name">Wholesoul Wellness</span>
+      </div>
       <button class="menu-toggle">☰</button>
       <ul>
         <li><a href="index.html">Home</a></li>
@@ -28,17 +28,82 @@
   <main>
     <section class="intro">
       <h2>Client Intake & Consent Form</h2>
-      <form action="#" method="post">
-        <label>Full Name:<br><input type="text" name="fullname" required></label><br>
-        <label>Date of Birth:<br><input type="date" name="dob" required></label><br>
-        <label>Address:<br><input type="text" name="address" required></label><br>
-        <label>Phone:<br><input type="tel" name="phone" required></label><br>
-        <label>Email:<br><input type="email" name="email" required></label><br>
-        <label>Emergency Contact:<br><input type="text" name="emergency" required></label><br>
-        <label>Medical History:<br><textarea name="history" rows="4"></textarea></label><br>
-        <label>Medications:<br><textarea name="medications" rows="2"></textarea></label><br>
-        <label><input type="checkbox" name="consent" required> I consent to receiving services from Wholesoul Wellness and understand this is not a substitute for medical care.</label><br>
-        <button type="submit">Submit</button>
+      <p><strong>In preparation for your Lymphatic Therapy session:</strong> Please refrain from wearing any lotions and deodorant. Be sure to hydrate the day before therapy and the day of therapy, and wear cotton underwear if possible.</p>
+      <form action="https://formsubmit.co/wholesoulyork@gmail.com" method="POST">
+        <div class="row-2">
+          <label>First Name:<input name="First Name" required></label>
+          <label>Last Name:<input name="Last Name" required></label>
+        </div>
+        <div class="row-3">
+          <label>DOB:<input type="date" name="DOB" required></label>
+          <label>Height:<input name="Height"></label>
+          <label>Weight:<input name="Weight"></label>
+        </div>
+        <label>Address:<input name="Address" required></label>
+        <div class="row-3">
+          <label>City:<input name="City" required></label>
+          <label>State:<input name="State" required></label>
+          <label>ZIP:<input name="ZIP" required></label>
+        </div>
+        <label>Phone Number (Cell):<input name="Cell Phone" required></label>
+        <label>Phone Number (Home):<input name="Home Phone"></label>
+        <label>Email:<input type="email" name="Email" required></label>
+
+        <h3>Emergency Contact</h3>
+        <label>Name:<input name="Emergency Name" required></label>
+        <label>Phone:<input name="Emergency Phone" required></label>
+        <label>Relationship:<input name="Emergency Relationship" required></label>
+
+        <h3>Restrictions (please check any that apply):</h3>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="Pregnant">Pregnant</label>
+          <label><input type="checkbox" name="Pacemaker">Pacemaker</label>
+          <label><input type="checkbox" name="Acute Infection">Acute Infection</label>
+          <label><input type="checkbox" name="CHF">Congestive Heart Failure</label>
+          <label><input type="checkbox" name="Immunosuppressants">Immunosuppressants</label>
+        </div>
+
+        <h3>Health History</h3>
+        <label>Have you had surgery recently?<textarea name="Recent Surgery"></textarea></label>
+        <label>Have you been diagnosed with Lymphedema? Describe affected areas:<textarea name="Lymphedema"></textarea></label>
+        <label>Have you ever had surgery on your abdomen, chest, or back?<textarea name="Other Surgery"></textarea></label>
+        <label>Have you had lymph nodes removed?<textarea name="Lymph Nodes"></textarea></label>
+        <label>Is there anything else we should know before starting therapy?<textarea name="Other Medical"></textarea></label>
+        <label>Immuno-suppressants you take:<textarea name="Immuno-suppressants"></textarea></label>
+        <label>Allergies (pharmaceutical & environmental):<textarea name="Allergies"></textarea></label>
+        <label>Healthcare provider’s name:<textarea name="Provider"></textarea></label>
+        <label>Current medications:<textarea name="Medications"></textarea></label>
+
+        <h3>Dietary Style</h3>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="Vegan">Vegan</label>
+          <label><input type="checkbox" name="Vegetarian">Vegetarian</label>
+          <label><input type="checkbox" name="Raw Diet">Raw Diet</label>
+          <label><input type="checkbox" name="Pescatarian">Pescatarian</label>
+          <label><input type="checkbox" name="Keto">Low Carb/Keto</label>
+        </div>
+        <label style="display: flex; align-items: center;">Other: <input name="Other Diet" style="margin-left: 8px;"></label></div>
+
+        <h3>Scales</h3>
+        <label>Stress (1–10):<input type="number" name="Stress" min="1" max="10"></label>
+        <label>Type(s) of stress:<input name="Stress Type"></label>
+        <label>Pain (1–10):<input type="number" name="Pain" min="1" max="10"></label>
+        <label>Pain Location/Type:<input name="Pain Location"></label>
+        <label>Energy (1–10):<input type="number" name="Energy" min="1" max="10"></label>
+
+        <h3>Notice of Privacy Practices</h3>
+        <p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
+        <label>Signature:<input name="Privacy Signature"></label>
+        <label>Date:<input type="date" name="Privacy Date"></label>
+
+        <h3>Client Waiver - Assisted Lymphatic Therapy</h3>
+        <p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, hereby acknowledge that I am the Client of WholeSoul Wellness, LLC and give my permission to participate in services offered. I understand this is not a diagnostic or curative procedure and hold harmless the practice from any claims.</p>
+        <label><div style="display: flex; align-items: center; gap: 6px;">Signed this the <input name="Waiver Day" style="width: 2em;" maxlength="2"> day of <input name="Waiver Month" style="width: 6em;">, 20<input name="Waiver Year" style="width: 2em;" maxlength="2"></div></label>
+        <label>Signature:<input name="Waiver Signature" required></label>
+        <label>Printed Name:<input name="Waiver Name" required></label>
+
+        <input type="hidden" name="_template" value="table">
+        <button type="submit">Submit Form</button>
       </form>
     </section>
   </main>
@@ -46,12 +111,5 @@
     <p>📍 1600 6th Ave Suite 103, York PA, 17403 | 📞 (717) 495-6303 | ✉ wholesoulyork@gmail.com</p>
     <p>© 2025 Wholesoul Wellness</p>
   </footer>
-  <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const menu = document.querySelector('nav ul');
-    toggle.addEventListener('click', () => {
-      menu.classList.toggle('show');
-    });
-  </script>
 </body>
 </html>
