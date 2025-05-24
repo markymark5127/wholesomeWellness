@@ -97,13 +97,43 @@
 
         <h3>Notice of Privacy Practices</h3>
         <p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
-        <label>Signature:<input name="Privacy Signature"></label>
+        <label>Signature:</label>
+        <div class="signature-wrapper">
+          <canvas id="privacy-signature-pad" width="400" height="150"></canvas>
+          <button type="button" id="clear-privacy-signature">Clear</button>
+        </div>
+        <input type="hidden" name="Privacy Signature Drawn" id="privacy-signature-input">
         <label>Date:<input type="date" name="Privacy Date"></label>
 
         <h3>Client Waiver - Assisted Lymphatic Therapy</h3>
         <p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, hereby acknowledge that I am the Client of WholeSoul Wellness, LLC and give my permission to participate in services offered. I understand this is not a diagnostic or curative procedure and hold harmless the practice from any claims.</p>
         <label><div class="signature-line">Signed this the <input name="Waiver Day" maxlength="2"> day of <input name="Waiver Month">, 20<input name="Waiver Year" maxlength="2"></div></label>
-        <label>Signature:<input name="Waiver Signature" required></label>
+        <label>Signature:</label>
+        <div class="signature-wrapper">
+          <canvas id="waiver-signature-pad" width="400" height="150"></canvas>
+          <button type="button" id="clear-waiver-signature">Clear</button>
+        </div>
+        <input type="hidden" name="Waiver Signature Drawn" id="waiver-signature-input">
+        <label>Printed Name:<input name="Waiver Name" required></label>
+
+        <p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
+        <label>Signature:</label>
+        <div class="signature-wrapper">
+          <canvas id="recieved-signature-pad" width="400" height="150"></canvas>
+          <button type="button" id="clear-recieved-signature">Clear</button>
+        </div>
+        <input type="hidden" name="Recieved Signature Drawn" id="recieved-signature-input">
+        <label>Date:<input type="date" name="Privacy Date"></label>
+
+        <h3>Client Waiver - Assisted Lymphatic Therapy</h3>
+        <p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, hereby acknowledge that I am the Client of WholeSoul Wellness, LLC and give my permission to participate in services offered. I understand this is not a diagnostic or curative procedure and hold harmless the practice from any claims.</p>
+        <label><div class="signature-line">Signed this the <input name="Waiver Day" maxlength="2"> day of <input name="Waiver Month">, 20<input name="Waiver Year" maxlength="2"></div></label>
+        <label>Signature:</label>
+        <div class="signature-wrapper">
+          <canvas id="client-signature-pad" width="400" height="150"></canvas>
+          <button type="button" id="clear-client-signature">Clear</button>
+        </div>
+        <input type="hidden" name="Client Signature Drawn" id="client-signature-input">
         <label>Printed Name:<input name="Waiver Name" required></label>
         <button type="submit">Submit Form</button>
       </form>
@@ -123,6 +153,54 @@
       });
     });
   </script>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+<script>
+  const privacyPad = new SignaturePad(document.getElementById('privacy-signature-pad'));
+  const waiverPad = new SignaturePad(document.getElementById('waiver-signature-pad'));
+  const recievedPad = new SignaturePad(document.getElementById('recieved-signature-pad'));
+  const clientPad = new SignaturePad(document.getElementById('client-signature-pad'));
+
+  document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
+  document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
+  document.getElementById('clear-recieved-signature').addEventListener('click', () => recievedPad.clear());
+  document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
+
+  document.querySelector('form').addEventListener('submit', function (e) {
+    let valid = true;
+
+    if (!privacyPad.isEmpty()) {
+      document.getElementById('privacy-signature-input').value = privacyPad.toDataURL();
+    } else {
+      alert("Please provide your privacy signature.");
+      valid = false;
+    }
+
+    if (!waiverPad.isEmpty()) {
+      document.getElementById('waiver-signature-input').value = waiverPad.toDataURL();
+    } else {
+      alert("Please provide your waiver signature.");
+      valid = false;
+    }
+    if (!recievedPad.isEmpty()) {
+      document.getElementById('recieved-signature-input').value = recievedPad.toDataURL();
+    } else {
+      alert("Please provide your privacy signature.");
+      valid = false;
+    }
+
+    if (!clientPad.isEmpty()) {
+      document.getElementById('client-signature-input').value = clientPad.toDataURL();
+    } else {
+      alert("Please provide your waiver signature.");
+      valid = false;
+    }
+
+    if (!valid) e.preventDefault();
+  });
+</script>
+
 </body>
+
 
 </html>

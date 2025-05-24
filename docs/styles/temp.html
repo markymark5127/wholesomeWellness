@@ -1,0 +1,74 @@
+<!-- Signature Pad Library -->
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<!-- Add this to the section where the signature is collected -->
+<h3>Notice of Privacy Practices</h3>
+<p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
+<label>Drawn Signature:</label>
+<div class="signature-wrapper">
+  <canvas id="privacy-signature-pad" width="400" height="150"></canvas>
+  <button type="button" id="clear-privacy-signature">Clear</button>
+</div>
+<input type="hidden" name="Privacy Signature Drawn" id="privacy-signature-input">
+<label>Date:<input type="date" name="Privacy Date"></label>
+
+<h3>Client Waiver - Assisted Lymphatic Therapy</h3>
+<p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, hereby acknowledge that I am the Client of WholeSoul Wellness, LLC and give my permission to participate in services offered. I understand this is not a diagnostic or curative procedure and hold harmless the practice from any claims.</p>
+<label><div class="signature-line">Signed this the <input name="Waiver Day" maxlength="2"> day of <input name="Waiver Month">, 20<input name="Waiver Year" maxlength="2"></div></label>
+<label>Drawn Signature:</label>
+<div class="signature-wrapper">
+  <canvas id="waiver-signature-pad" width="400" height="150"></canvas>
+  <button type="button" id="clear-waiver-signature">Clear</button>
+</div>
+<input type="hidden" name="Waiver Signature Drawn" id="waiver-signature-input">
+<label>Printed Name:<input name="Waiver Name" required></label>
+
+<!-- In the CSS file (main.css) -->
+.signature-wrapper {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  background-color: #fff;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+canvas {
+  width: 100% !important;
+  height: auto;
+  max-width: 400px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  touch-action: none;
+}
+
+@media (max-width: 768px) {
+  canvas {
+    width: 100% !important;
+    height: 120px;
+  }
+}
+
+/* Add this to the bottom of the body */
+<script>
+  const privacyPad = new SignaturePad(document.getElementById('privacy-signature-pad'));
+  const waiverPad = new SignaturePad(document.getElementById('waiver-signature-pad'));
+
+  document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
+  document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
+
+  document.querySelector('form').addEventListener('submit', function (e) {
+    if (!privacyPad.isEmpty()) {
+      document.getElementById('privacy-signature-input').value = privacyPad.toDataURL();
+    }
+    if (!waiverPad.isEmpty()) {
+      document.getElementById('waiver-signature-input').value = waiverPad.toDataURL();
+    }
+  });
+</script>
+
