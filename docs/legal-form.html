@@ -101,6 +101,8 @@
           <button type="button" id="clear-client-signature">Clear</button>
         </div>
         <input type="hidden" name="Client Signature Drawn" id="client-signature-input">
+        <input type="file" name="ClientSignatureFile" id="client-file-upload" style="display: none;">
+
           
         <h3>Notice of Privacy Practices</h3>
         <p>The Department of Health and Human Services has established a “Privacy Rule” to help insure that personal health care information is protected
@@ -123,6 +125,8 @@
           <button type="button" id="clear-privacy-signature">Clear</button>
         </div>
         <input type="hidden" name="Privacy Signature Drawn" id="privacy-signature-input">
+        <input type="file" name="PrivacySignatureFile" id="privacy-file-upload" style="display: none;">
+
         <label>Date:<input type="date" name="Privacy Date"></label>
 
         <h3>Client Waiver - Assisted Lymphatic Therapy</h3>
@@ -134,6 +138,8 @@
           <button type="button" id="clear-waiver-signature">Clear</button>
         </div>
         <input type="hidden" name="Waiver Signature Drawn" id="waiver-signature-input">
+        <input type="file" name="WaiverSignatureFile" id="waiver-file-upload" style="display: none;">
+
         <label>Printed Name:<input name="Waiver Name" required></label>
         <button type="submit">Submit Form</button>
       </form>
@@ -157,57 +163,68 @@
     });
   </script>
 
-  <!--Signature Pad 125-->
+  <!--Signature Pad 141-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const privacyCanvas = document.getElementById('privacy-signature-pad');
-      const waiverCanvas = document.getElementById('waiver-signature-pad');
       const clientCanvas = document.getElementById('client-signature-pad');
+      const waiverCanvas = document.getElementById('waiver-signature-pad');
+      const privacyCanvas = document.getElementById('privacy-signature-pad');
 
-      const privacyInput = document.getElementById('privacy-signature-input');
-      const waiverInput = document.getElementById('waiver-signature-input');
-      const clientInput = document.getElementById('client-signature-input');
+      const clientPad = new SignaturePad(clientCanvas);
+      const waiverPad = new SignaturePad(waiverCanvas);
+      const privacyPad = new SignaturePad(privacyCanvas);
 
-      if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
-        console.error('One or more signature canvases could not be found.');
-        return;
+      const clientInput = document.getElementById('client-file-upload');
+      const waiverInput = document.getElementById('waiver-file-upload');
+      const privacyInput = document.getElementById('privacy-file-upload');
+
+      // Clear buttons
+      document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
+      document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
+      document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
+
+      // Helper to convert dataURL to File object
+      function dataURLToFile(dataUrl, filename) {
+        const arr = dataUrl.split(',');
+        const mime = arr[0].match(/:(.*?);/)[1];
+        const bstr = atob(arr[1]);
+        let n = bstr.length;
+        const u8arr = new Uint8Array(n);
+        while (n--) {
+          u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, { type: mime });
       }
 
-      const privacyPad = new SignaturePad(privacyCanvas);
-      const waiverPad = new SignaturePad(waiverCanvas);
-      const clientPad = new SignaturePad(clientCanvas);
-
-      document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
-      document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
-      document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
-
       document.querySelector('form').addEventListener('submit', function (e) {
-        if (privacyPad.isEmpty()) {
-          alert("Please provide your privacy signature.");
+        // Validate signatures
+        if (clientPad.isEmpty() || waiverPad.isEmpty() || privacyPad.isEmpty()) {
+          alert("Please complete all required signatures.");
           e.preventDefault();
           return;
         }
 
-        if (waiverPad.isEmpty()) {
-          alert("Please provide your waiver signature.");
-          e.preventDefault();
-          return;
-        }
+        // Convert to files
+        const clientFile = dataURLToFile(clientPad.toDataURL(), "client-signature.png");
+        const waiverFile = dataURLToFile(waiverPad.toDataURL(), "waiver-signature.png");
+        const privacyFile = dataURLToFile(privacyPad.toDataURL(), "privacy-signature.png");
 
-        if (clientPad.isEmpty()) {
-          alert("Please provide your client signature.");
-          e.preventDefault();
-          return;
-        }
+        // Attach to file inputs using DataTransfer
+        const cdt = new DataTransfer();
+        cdt.items.add(clientFile);
+        clientInput.files = cdt.files;
 
-        // Plain truncated Base64 (first 100 characters is enough to prove it's filled)
-        privacyInput.value = privacyPad.toDataURL().substring(0, 100);
-        waiverInput.value = waiverPad.toDataURL().substring(0, 100);
-        clientInput.value = clientPad.toDataURL().substring(0, 100);
+        const wdt = new DataTransfer();
+        wdt.items.add(waiverFile);
+        waiverInput.files = wdt.files;
+
+        const pdt = new DataTransfer();
+        pdt.items.add(privacyFile);
+        privacyInput.files = pdt.files;
       });
-
     });
   </script>
+
 
 </body>
 
