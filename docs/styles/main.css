@@ -75,17 +75,6 @@ nav ul li a {
   overflow: hidden;
 }
 
-
-/*
-.hero-bg-logo {
-  position: absolute;
-  top: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  max-width: 90%;
-  opacity: 0.05;
-  z-index: 0;
-}*/
 /* Hero background logo (updated to fill vertical space better) */
 .hero-bg-logo {
   position: absolute;
@@ -155,6 +144,18 @@ nav ul li a {
   color: #444;
   font-style: italic;
 }
+
+.reviews {
+  max-width: 800px;
+  margin: 80px auto;
+  padding: 0 20px;
+  text-align: center;
+}
+.review-button {
+  margin-top: 20px;
+  display: inline-block;
+}
+
 
 /* Footer */
 footer {
