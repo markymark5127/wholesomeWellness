@@ -98,7 +98,7 @@
 
         <h3>Client Waiver - Assisted Lymphatic Therapy</h3>
         <p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, hereby acknowledge that I am the Client of WholeSoul Wellness, LLC and give my permission to participate in services offered. I understand this is not a diagnostic or curative procedure and hold harmless the practice from any claims.</p>
-        <label><div style="display: flex; align-items: center; gap: 6px;">Signed this the <input name="Waiver Day" style="width: 2em;" maxlength="2"> day of <input name="Waiver Month" style="width: 6em;">, 20<input name="Waiver Year" style="width: 2em;" maxlength="2"></div></label>
+        <label><div class="signature-line">Signed this the <input name="Waiver Day" maxlength="2"> day of <input name="Waiver Month">, 20<input name="Waiver Year" maxlength="2"></div></label>
         <label>Signature:<input name="Waiver Signature" required></label>
         <label>Printed Name:<input name="Waiver Name" required></label>
 
@@ -111,5 +111,16 @@
     <p>📍 1600 6th Ave Suite 103, York PA, 17403 | 📞 (717) 495-6303 | ✉ wholesoulyork@gmail.com</p>
     <p>© 2025 Wholesoul Wellness</p>
   </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggle = document.querySelector('.menu-toggle');
+      const menu = document.querySelector('nav ul');
+      toggle.addEventListener('click', () => {
+        menu.classList.toggle('show');
+      });
+    });
+  </script>
 </body>
+
 </html>

@@ -268,3 +268,41 @@ form label select {
     gap: 4px !important;
   }
 }
+
+/* Mobile correction styles */
+
+/* Ensure signature line stays inline even on mobile */
+form .signature-line {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+form .signature-line input {
+  width: auto;
+  max-width: 3em;
+}
+
+/* Fix menu toggle icon alignment and behavior */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  nav ul {
+    display: none;
+    flex-direction: column;
+    background: white;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+
+  nav ul.show {
+    display: flex !important;
+  }
+}
