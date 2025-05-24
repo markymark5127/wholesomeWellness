@@ -143,7 +143,10 @@
     <p>📍 1600 6th Ave Suite 103, York PA, 17403 | 📞 (717) 495-6303 | ✉ wholesoulyork@gmail.com</p>
     <p>© 2025 Wholesoul Wellness</p>
   </footer>
-
+  
+  <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  
+  <!--Mobile Menu-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const toggle = document.querySelector('.menu-toggle');
@@ -154,54 +157,54 @@
     });
   </script>
 
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const privacyCanvas = document.getElementById('privacy-signature-pad');
-    const waiverCanvas = document.getElementById('waiver-signature-pad');
-    const clientCanvas = document.getElementById('client-signature-pad');
+  <!--Signature Pad-->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const privacyCanvas = document.getElementById('privacy-signature-pad');
+      const waiverCanvas = document.getElementById('waiver-signature-pad');
+      const clientCanvas = document.getElementById('client-signature-pad');
 
-    if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
-      console.error('One or more signature pads could not be found.');
-      return;
-    }
-
-    const privacyPad = new SignaturePad(privacyCanvas);
-    const waiverPad = new SignaturePad(waiverCanvas);
-    const clientPad = new SignaturePad(clientCanvas);
-
-    document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
-    document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
-    document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
-
-    document.querySelector('form').addEventListener('submit', function (e) {
-      let valid = true;
-
-      if (!privacyPad.isEmpty()) {
-        document.getElementById('privacy-signature-input').value = privacyPad.toDataURL();
-      } else {
-        alert("Please provide your privacy signature.");
-        valid = false;
+      if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
+        console.error('One or more signature pads could not be found.');
+        return;
       }
 
-      if (!waiverPad.isEmpty()) {
-        document.getElementById('waiver-signature-input').value = waiverPad.toDataURL();
-      } else {
-        alert("Please provide your waiver signature.");
-        valid = false;
-      }
+      const privacyPad = new SignaturePad(privacyCanvas);
+      const waiverPad = new SignaturePad(waiverCanvas);
+      const clientPad = new SignaturePad(clientCanvas);
 
-      if (!clientPad.isEmpty()) {
-        document.getElementById('client-signature-input').value = clientPad.toDataURL();
-      } else {
-        alert("Please provide your client signature.");
-        valid = false;
-      }
+      document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
+      document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
+      document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
 
-      if (!valid) e.preventDefault();
+      document.querySelector('form').addEventListener('submit', function (e) {
+        let valid = true;
+
+        if (!privacyPad.isEmpty()) {
+          document.getElementById('privacy-signature-input').value = privacyPad.toDataURL();
+        } else {
+          alert("Please provide your privacy signature.");
+          valid = false;
+        }
+
+        if (!waiverPad.isEmpty()) {
+          document.getElementById('waiver-signature-input').value = waiverPad.toDataURL();
+        } else {
+          alert("Please provide your waiver signature.");
+          valid = false;
+        }
+
+        if (!clientPad.isEmpty()) {
+          document.getElementById('client-signature-input').value = clientPad.toDataURL();
+        } else {
+          alert("Please provide your client signature.");
+          valid = false;
+        }
+
+        if (!valid) e.preventDefault();
+      });
     });
-  });
-</script>
+  </script>
 
 
 </body>
