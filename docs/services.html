@@ -7,10 +7,28 @@
   <title>Services - Wholesoul Wellness</title>
   <link rel="stylesheet" href="styles/main.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    .services-container {
+      max-width: 800px;
+      margin: auto;
+      padding: 40px 20px;
+      text-align: left;
+    }
+    .service-plan {
+      background: #f0f9f5;
+      padding: 20px;
+      border-left: 4px solid #2a7f5f;
+      margin-bottom: 20px;
+      border-radius: 6px;
+    }
+    .service-plan h3 {
+      margin-top: 0;
+      color: #2a7f5f;
+    }
+  </style>
 </head>
 <body>
   <header class="main-header">
-
     <nav>
       <div class="brand-wrapper"><img src="assets/logo.png" alt="Wholesoul Wellness Logo" class="logo"/><span class="site-name">Wholesoul Wellness</span></div>
       <button class="menu-toggle">☰</button>
@@ -26,16 +44,20 @@
     </nav>
   </header>
   <main>
-    <section class="intro">
+    <section class="services-container">
       <h2>Our Services</h2>
-      <ul>
-        <li><strong>Assisted Lymphatic Therapy - 60 min:</strong> $85</li>
-        <li><strong>Assisted Lymphatic Therapy - 90 min:</strong> $120</li>
-        <li><strong>Initial Consultation - 30 min:</strong> $40</li>
-        <li><strong>Package of 3 Sessions:</strong> $230</li>
-        <li><strong>Package of 5 Sessions:</strong> $375</li>
-      </ul>
-      <p>All sessions are non-invasive and designed to support detox and circulation using light and vibrational therapy equipment.</p>
+      <div class="service-plan">
+        <h3>2 ALT Sessions</h3>
+        <p>Each session is 60–75 minutes.<br><strong>Price: $120</strong></p>
+      </div>
+      <div class="service-plan">
+        <h3>4 ALT Sessions</h3>
+        <p>Ideal for continued progress and deeper detoxification.<br><strong>Price: $440</strong></p>
+      </div>
+      <div class="service-plan">
+        <h3>8 ALT Sessions</h3>
+        <p>Recommended for long-term results and full body balancing.<br><strong>Price: $860</strong></p>
+      </div>
     </section>
   </main>
   <footer>
@@ -43,10 +65,12 @@
     <p>© 2025 Wholesoul Wellness</p>
   </footer>
   <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const menu = document.querySelector('nav ul');
-    toggle.addEventListener('click', () => {
-      menu.classList.toggle('show');
+    document.addEventListener('DOMContentLoaded', function () {
+      const toggle = document.querySelector('.menu-toggle');
+      const menu = document.querySelector('nav ul');
+      toggle.addEventListener('click', () => {
+        menu.classList.toggle('show');
+      });
     });
   </script>
 </body>
