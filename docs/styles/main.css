@@ -303,7 +303,9 @@ iframe {
     font-size: 2em;
   }
 
-  .hero p,
+  .hero p {
+    color: #4fa3a3;
+  },
   .intro p,
   footer {
     font-size: 1em;
