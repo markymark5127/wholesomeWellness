@@ -241,3 +241,30 @@ form label select {
   display: block;
   margin-top: 4px;
 }
+
+/* Responsive adjustments for mobile */
+
+@media (max-width: 600px) {
+  form .row-2, form .row-3, .checkbox-group {
+    flex-direction: column;
+  }
+
+  form .row-2 label, form .row-3 label {
+    width: 100%;
+  }
+
+  .brand-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .site-name {
+    font-size: 1.2em;
+  }
+
+  form div[style*="display: flex"][style*="gap: 6px"] {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 4px !important;
+  }
+}
