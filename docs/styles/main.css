@@ -102,7 +102,7 @@ nav ul li a {
 .hero p {
   font-size: 1.2em;
   margin: 10px 0 30px;
-  color: #2e8b72; /* Slightly brighter and bolder than original green */
+  color: #4fa3a3;
 }
 
 .cta {
@@ -252,6 +252,7 @@ iframe {
 
   .hero p {
     font-size: 1.5em;
+    color: #2e8b72; /* Slightly brighter and bolder than original green */
   }
 }
 
@@ -303,9 +304,7 @@ iframe {
     font-size: 2em;
   }
 
-  .hero p {
-    color: #4fa3a3;
-  },
+  .hero p,
   .intro p,
   footer {
     font-size: 1em;
