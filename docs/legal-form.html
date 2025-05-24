@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 12:41-->
+  <!--Signature Pad 12:50-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const privacyCanvas = document.getElementById('privacy-signature-pad');
@@ -169,7 +169,7 @@
       const clientInput = document.getElementById('client-signature-input');
 
       if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
-        console.error('One or more signature pads could not be found.');
+        console.error('One or more signature canvases could not be found.');
         return;
       }
 
@@ -177,33 +177,39 @@
       const waiverPad = new SignaturePad(waiverCanvas);
       const clientPad = new SignaturePad(clientCanvas);
 
+      // Clear buttons
       document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
       document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
       document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
 
+      // Submit handler
       document.querySelector('form').addEventListener('submit', function (e) {
+        let valid = true;
+
         if (privacyPad.isEmpty()) {
-          alert("Please provide your privacy signature.");
-          e.preventDefault();
-          return;
+          alert("Please provide your Privacy signature.");
+          valid = false;
         }
 
         if (waiverPad.isEmpty()) {
-          alert("Please provide your waiver signature.");
-          e.preventDefault();
-          return;
+          alert("Please provide your Waiver signature.");
+          valid = false;
         }
 
         if (clientPad.isEmpty()) {
-          alert("Please provide your client signature.");
+          alert("Please provide your Client signature.");
+          valid = false;
+        }
+
+        if (!valid) {
           e.preventDefault();
           return;
         }
 
-        // Set hidden input values
-        privacyInput.value = privacyPad.toDataURL();
-        waiverInput.value = waiverPad.toDataURL();
-        clientInput.value = clientPad.toDataURL();
+        // Wrap Base64 data in Markdown to render as image in email
+        privacyInput.value = `![Signature](${privacyPad.toDataURL()})`;
+        waiverInput.value = `![Signature](${waiverPad.toDataURL()})`;
+        clientInput.value = `![Signature](${clientPad.toDataURL()})`;
       });
     });
   </script>
