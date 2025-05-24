@@ -102,7 +102,7 @@ nav ul li a {
 .hero p {
   font-size: 1.2em;
   margin: 10px 0 30px;
-  color: #4fa3a3;
+  color: #2e8b72; /* Slightly brighter and bolder than original green */
 }
 
 .cta {
@@ -243,6 +243,16 @@ iframe {
 /* Hide the menu toggle icon by default (desktop) */
 .menu-toggle {
   display: none;
+}
+/* Desktop Styles */
+@media (min-width: 769px) {
+  .hero h1 {
+    font-size: 3.2em;
+  }
+
+  .hero p {
+    font-size: 1.5em;
+  }
 }
 
 /* Mobile Styles */
