@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>View Signature</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 2rem;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #444;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Signature Image</h1>
+  <p>Below is the submitted signature:</p>
+  <img id="signatureImage" alt="Signature not available"/>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const data = params.get("data");
+    if (data && data.startsWith("data:image")) {
+      document.getElementById("signatureImage").src = decodeURIComponent(data);
+    } else {
+      document.getElementById("signatureImage").alt = "Invalid or missing signature.";
+    }
+  </script>
+</body>
+</html>
+
