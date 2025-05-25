@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 10:51-->
+  <!--Signature Pad 11:04-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -183,10 +183,8 @@
       document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
       document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
 
-      const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
-
       form.addEventListener('submit', function (e) {
-        // Signature checks
+        // Validate signatures
         if (privacyPad.isEmpty()) {
           e.preventDefault();
           alert("Please provide your privacy signature.");
@@ -203,12 +201,16 @@
           return;
         }
 
-        // Assign image URLs to hidden fields
-        clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL());
-        waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
-        privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
+        // Compress to JPEG, strip base64 prefix
+        const toCleanBase64 = pad => pad.toDataURL("image/jpeg", 0.3).split(',')[1];
 
-        // Clean phone numbers and ZIP code
+        const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
+
+        clientInput.value = viewerURL + encodeURIComponent(toCleanBase64(clientPad));
+        waiverInput.value = viewerURL + encodeURIComponent(toCleanBase64(waiverPad));
+        privacyInput.value = viewerURL + encodeURIComponent(toCleanBase64(privacyPad));
+
+        // Clean up phone numbers and ZIP
         ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
           const input = document.getElementById(id);
           if (input) input.value = input.value.replace(/\D/g, '');
@@ -216,6 +218,7 @@
       });
     });
   </script>
+
 
 
 </body>

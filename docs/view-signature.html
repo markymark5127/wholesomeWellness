@@ -2,35 +2,40 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>View Signature</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       text-align: center;
-      padding: 2rem;
+      padding: 40px;
+      background: #f0f0f0;
     }
     img {
       max-width: 100%;
-      height: auto;
-      border: 2px solid #444;
-      margin-top: 1rem;
+      border: 1px solid #aaa;
+      background: white;
     }
   </style>
 </head>
 <body>
-  <h1>Signature Image</h1>
-  <p>Below is the submitted signature:</p>
-  <img id="signatureImage" alt="Signature not available"/>
+  <h1>Client Signature</h1>
+  <div id="output">
+    <p>Loading signature...</p>
+  </div>
+
   <script>
     const params = new URLSearchParams(window.location.search);
-    const data = params.get("data");
-    if (data && data.startsWith("data:image")) {
-      document.getElementById("signatureImage").src = decodeURIComponent(data);
+    const base64 = params.get('data');
+
+    if (base64) {
+      const img = new Image();
+      img.src = "data:image/jpeg;base64," + base64;
+      img.alt = "Signature";
+      document.getElementById('output').innerHTML = "";
+      document.getElementById('output').appendChild(img);
     } else {
-      document.getElementById("signatureImage").alt = "Invalid or missing signature.";
+      document.getElementById('output').innerHTML = "<p>No signature data provided.</p>";
     }
   </script>
 </body>
 </html>
-
