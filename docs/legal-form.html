@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 11:04-->
+  <!--Signature Pad 11:09-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -183,8 +183,23 @@
       document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
       document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
 
+      // Compress canvas as JPEG with white background
+      function getJpegBase64WithWhiteBg(signaturePad) {
+        const originalCanvas = signaturePad.canvas;
+        const tmpCanvas = document.createElement('canvas');
+        tmpCanvas.width = originalCanvas.width;
+        tmpCanvas.height = originalCanvas.height;
+
+        const ctx = tmpCanvas.getContext('2d');
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+        ctx.drawImage(originalCanvas, 0, 0);
+
+        return tmpCanvas.toDataURL("image/jpeg", 0.3).split(',')[1]; // strip data: prefix
+      }
+
       form.addEventListener('submit', function (e) {
-        // Validate signatures
+        // Validate all signatures
         if (privacyPad.isEmpty()) {
           e.preventDefault();
           alert("Please provide your privacy signature.");
@@ -201,16 +216,13 @@
           return;
         }
 
-        // Compress to JPEG, strip base64 prefix
-        const toCleanBase64 = pad => pad.toDataURL("image/jpeg", 0.3).split(',')[1];
-
         const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
-        clientInput.value = viewerURL + encodeURIComponent(toCleanBase64(clientPad));
-        waiverInput.value = viewerURL + encodeURIComponent(toCleanBase64(waiverPad));
-        privacyInput.value = viewerURL + encodeURIComponent(toCleanBase64(privacyPad));
+        clientInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(clientPad));
+        waiverInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(waiverPad));
+        privacyInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(privacyPad));
 
-        // Clean up phone numbers and ZIP
+        // Strip non-digit characters from phone numbers and ZIP
         ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
           const input = document.getElementById(id);
           if (input) input.value = input.value.replace(/\D/g, '');
