@@ -2,52 +2,34 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>View Signature</title>
   <style>
     body {
-      font-family: sans-serif;
+      font-family: Arial, sans-serif;
       text-align: center;
-      padding: 40px;
-      background: #f0f0f0;
+      padding: 2rem;
     }
     img {
       max-width: 100%;
-      border: 1px solid #aaa;
-      background: white;
+      height: auto;
+      border: 2px solid #444;
+      margin-top: 1rem;
     }
   </style>
 </head>
 <body>
-  <h1>Client Signature</h1>
-  <div id="output">
-    <p>Loading signature...</p>
-  </div>
-
+  <h1>Signature Image</h1>
+  <p>Below is the submitted signature:</p>
+  <img id="signatureImage" alt="Signature not available"/>
   <script>
     const params = new URLSearchParams(window.location.search);
-    const base64 = params.get('data');
-
-    if (base64) {
-      const img = new Image();
-      img.src = "data:image/jpeg;base64," + base64;
-      img.alt = "Signature";
-
-      img.onerror = function () {
-        document.getElementById('output').innerHTML = `
-          <p>⚠️ Failed to load image. Base64 data may be corrupted.</p>
-          <textarea style="width:100%;height:200px;">${base64.slice(0, 500)}...</textarea>
-          <p>Length: ${base64.length}</p>
-        `;
-      };
-
-      img.onload = function () {
-        document.getElementById('output').innerHTML = "";
-        document.getElementById('output').appendChild(img);
-      };
+    const data = params.get("data");
+    if (data && data.startsWith("data:image")) {
+      document.getElementById("signatureImage").src = decodeURIComponent(data);
     } else {
-      document.getElementById('output').innerHTML = "<p>No signature data provided.</p>";
+      document.getElementById("signatureImage").alt = "Invalid or missing signature.";
     }
   </script>
-
 </body>
 </html>

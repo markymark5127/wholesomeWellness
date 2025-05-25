@@ -157,91 +157,66 @@
     });
   </script>
 
-  <!--Signature Pad 11:56-->
+  <!--Signature Pad 12:10-->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const form = document.querySelector('form');
+      document.addEventListener('DOMContentLoaded', function () {
+        const form = document.querySelector('form');
+        const privacyCanvas = document.getElementById('privacy-signature-pad');
+        const waiverCanvas = document.getElementById('waiver-signature-pad');
+        const clientCanvas = document.getElementById('client-signature-pad');
 
-      const privacyCanvas = document.getElementById('privacy-signature-pad');
-      const waiverCanvas = document.getElementById('waiver-signature-pad');
-      const clientCanvas = document.getElementById('client-signature-pad');
-
-      const privacyInput = document.getElementById('privacy-signature-input');
-      const waiverInput = document.getElementById('waiver-signature-input');
-      const clientInput = document.getElementById('client-signature-input');
-      
-      const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
-
-      if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
-        console.error('One or more signature canvases could not be found.');
-        return;
-      }
-
-      const privacyPad = new SignaturePad(privacyCanvas);
-      const waiverPad = new SignaturePad(waiverCanvas);
-      const clientPad = new SignaturePad(clientCanvas);
-
-      document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
-      document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
-      document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
-      
-
-      // Compress canvas as JPEG with white background
-      function getJpegBase64WithWhiteBg(signaturePad) {
-        const originalCanvas = signaturePad.canvas;
-        const tmpCanvas = document.createElement('canvas');
-        tmpCanvas.width = originalCanvas.width;
-        tmpCanvas.height = originalCanvas.height;
-
-        const ctx = tmpCanvas.getContext('2d');
-        ctx.fillStyle = '#ffffff'; // white background
-        ctx.fillRect(0, 0, tmpCanvas.width, tmpCanvas.height);
-        ctx.drawImage(originalCanvas, 0, 0);
-
-        const dataURL = tmpCanvas.toDataURL("image/jpeg", 0.5);
-        return dataURL.split(',')[1];
-      }
-      
-      function getSafeSignatureValue(signaturePad) {
-        const base64 = getJpegBase64WithWhiteBg(signaturePad);
-        const maxLength = 3500;
-        return viewerURL + encodeURIComponent(base64.slice(0, maxLength));
-      }
-
-      form.addEventListener('submit', function (e) {
-        // Validate all signatures
-        if (privacyPad.isEmpty()) {
-          e.preventDefault();
-          alert("Please provide your privacy signature.");
-          return;
-        }
-        if (waiverPad.isEmpty()) {
-          e.preventDefault();
-          alert("Please provide your waiver signature.");
-          return;
-        }
-        if (clientPad.isEmpty()) {
-          e.preventDefault();
-          alert("Please provide your client signature.");
-          return;
-        }
-
-  
-        clientInput.value = getSafeSignatureValue(clientPad);
-        waiverInput.value = getSafeSignatureValue(waiverPad);
-        privacyInput.value = getSafeSignatureValue(privacyPad);
+        const privacyInput = document.getElementById('privacy-signature-input');
+        const waiverInput = document.getElementById('waiver-signature-input');
+        const clientInput = document.getElementById('client-signature-input');
         
+        const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
-        // Strip non-digit characters from phone numbers and ZIP
-        ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
-          const input = document.getElementById(id);
-          if (input) input.value = input.value.replace(/\D/g, '');
+        if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
+          console.error('One or more signature canvases could not be found.');
+          return;
+        }
+
+        const privacyPad = new SignaturePad(privacyCanvas);
+        const waiverPad = new SignaturePad(waiverCanvas);
+        const clientPad = new SignaturePad(clientCanvas);
+
+        document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
+        document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
+        document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
+
+        form.addEventListener('submit', function (e) {
+          if (privacyPad.isEmpty()) {
+            e.preventDefault();
+            alert("Please provide your privacy signature.");
+            return;
+          }
+          if (waiverPad.isEmpty()) {
+            e.preventDefault();
+            alert("Please provide your waiver signature.");
+            return;
+          }
+          if (clientPad.isEmpty()) {
+            e.preventDefault();
+            alert("Please provide your client signature.");
+            return;
+          }
+
+          // Assign image URLs to hidden fields
+          clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL());
+          waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
+          privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
+          
+          
+          // Strip non-digit characters from phone numbers and ZIP
+          ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
+            const input = document.getElementById(id);
+            if (input) input.value = input.value.replace(/\D/g, '');
+          });
+
+          // Let the form submit naturally
         });
       });
-    });
   </script>
-
-
 
 </body>
 
