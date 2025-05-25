@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 12:17-->
+<!--  Signature Pad 12:35-->
   <script>
       document.addEventListener('DOMContentLoaded', function () {
         const form = document.querySelector('form');
@@ -179,10 +179,18 @@
         const privacyPad = new SignaturePad(privacyCanvas);
         const waiverPad = new SignaturePad(waiverCanvas);
         const clientPad = new SignaturePad(clientCanvas);
+        
+        // Strip non-digit characters from phone numbers and ZIP
+        ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
+          const input = document.getElementById(id);
+          if (input) input.value = input.value.replace(/\D/g, '');
+        });
 
         document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
         document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
         document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
+
+        
 
         form.addEventListener('submit', function (e) {
           if (privacyPad.isEmpty()) {
@@ -202,25 +210,15 @@
           }
 
           // Assign image URLs to hidden fields
-          clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL().slice(0, 4000));
-          waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL().slice(0, 4000));
-          privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL().slice(0, 4000));
-          
-          clientInput.value = "Signed";
-          waiverInput.value = "Signed";
-          privacyInput.value = "Signed";
-
-          // Strip non-digit characters from phone numbers and ZIP
-          ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
-            const input = document.getElementById(id);
-            if (input) input.value = input.value.replace(/\D/g, '');
-          });
+          clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL());
+          waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
+          privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
 
           // Let the form submit naturally
         });
       });
   </script>
-
+  
 </body>
 
 </html>
