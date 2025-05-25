@@ -205,6 +205,10 @@
           clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL().slice(0, 4000));
           waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL().slice(0, 4000));
           privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL().slice(0, 4000));
+          
+          clientInput.value = "Signed";
+          waiverInput.value = "Signed";
+          privacyInput.value = "Signed";
 
           // Strip non-digit characters from phone numbers and ZIP
           ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
