@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 12:10-->
+  <!--Signature Pad 12:17-->
   <script>
       document.addEventListener('DOMContentLoaded', function () {
         const form = document.querySelector('form');
@@ -202,11 +202,10 @@
           }
 
           // Assign image URLs to hidden fields
-          clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL());
-          waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
-          privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
-          
-          
+          clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL().slice(0, 4000));
+          waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL().slice(0, 4000));
+          privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL().slice(0, 4000));
+
           // Strip non-digit characters from phone numbers and ZIP
           ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
             const input = document.getElementById(id);
