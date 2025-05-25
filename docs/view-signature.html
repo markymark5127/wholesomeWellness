@@ -31,11 +31,23 @@
       const img = new Image();
       img.src = "data:image/jpeg;base64," + base64;
       img.alt = "Signature";
-      document.getElementById('output').innerHTML = "";
-      document.getElementById('output').appendChild(img);
+
+      img.onerror = function () {
+        document.getElementById('output').innerHTML = `
+          <p>⚠️ Failed to load image. Base64 data may be corrupted.</p>
+          <textarea style="width:100%;height:200px;">${base64.slice(0, 500)}...</textarea>
+          <p>Length: ${base64.length}</p>
+        `;
+      };
+
+      img.onload = function () {
+        document.getElementById('output').innerHTML = "";
+        document.getElementById('output').appendChild(img);
+      };
     } else {
       document.getElementById('output').innerHTML = "<p>No signature data provided.</p>";
     }
   </script>
+
 </body>
 </html>

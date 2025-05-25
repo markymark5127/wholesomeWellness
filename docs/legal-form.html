@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 11:26-->
+  <!--Signature Pad 11:37-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -182,6 +182,7 @@
       document.getElementById('clear-privacy-signature').addEventListener('click', () => privacyPad.clear());
       document.getElementById('clear-waiver-signature').addEventListener('click', () => waiverPad.clear());
       document.getElementById('clear-client-signature').addEventListener('click', () => clientPad.clear());
+      
 
       // Compress canvas as JPEG with white background
       function getJpegBase64WithWhiteBg(signaturePad) {
@@ -191,18 +192,13 @@
         tmpCanvas.height = originalCanvas.height;
 
         const ctx = tmpCanvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#ffffff'; // white background
         ctx.fillRect(0, 0, tmpCanvas.width, tmpCanvas.height);
         ctx.drawImage(originalCanvas, 0, 0);
 
-        const fullBase64 = tmpCanvas.toDataURL("image/jpeg", 0.3).split(',')[1];
-
-        // Safely truncate to prevent URL too long
-        const maxSafeLength = 1000;
-        return fullBase64.slice(0, maxSafeLength);
+        const dataURL = tmpCanvas.toDataURL("image/jpeg", 0.5);
+        return dataURL.split(',')[1];
       }
-
-
 
       form.addEventListener('submit', function (e) {
         // Validate all signatures
@@ -226,6 +222,11 @@
         clientInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(clientPad));
         waiverInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(waiverPad));
         privacyInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(privacyPad));
+        
+        clientInput.value = "signed";
+        waiverInput.value = "signed";
+        privacyInput.value = "signed";
+
 
 
         // Strip non-digit characters from phone numbers and ZIP
