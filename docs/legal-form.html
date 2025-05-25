@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 11:09-->
+  <!--Signature Pad 11:17-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -186,17 +186,24 @@
       // Compress canvas as JPEG with white background
       function getJpegBase64WithWhiteBg(signaturePad) {
         const originalCanvas = signaturePad.canvas;
+
         const tmpCanvas = document.createElement('canvas');
         tmpCanvas.width = originalCanvas.width;
         tmpCanvas.height = originalCanvas.height;
 
         const ctx = tmpCanvas.getContext('2d');
+
+        // Fill background with white
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, tmpCanvas.width, tmpCanvas.height);
+
+        // Force update and draw image
         ctx.drawImage(originalCanvas, 0, 0);
 
-        return tmpCanvas.toDataURL("image/jpeg", 0.3).split(',')[1]; // strip data: prefix
+        // Debug tip: visually test tmpCanvas if needed
+        return tmpCanvas.toDataURL("image/jpeg", 0.3).split(',')[1];
       }
+
 
       form.addEventListener('submit', function (e) {
         // Validate all signatures
