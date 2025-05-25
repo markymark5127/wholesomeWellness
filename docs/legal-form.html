@@ -157,9 +157,10 @@
     });
   </script>
 
-  <!--Signature Pad 9:44-->
+  <!--Signature Pad 9:49-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      const form = document.querySelector('form');
       const privacyCanvas = document.getElementById('privacy-signature-pad');
       const waiverCanvas = document.getElementById('waiver-signature-pad');
       const clientCanvas = document.getElementById('client-signature-pad');
@@ -183,22 +184,21 @@
 
       const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
-      document.querySelector('form').addEventListener('submit', function (e) {
+      form.addEventListener('submit', function (e) {
+        e.preventDefault(); // Always stop default first
+
         if (privacyPad.isEmpty()) {
           alert("Please provide your privacy signature.");
-          e.preventDefault();
           return;
         }
 
         if (waiverPad.isEmpty()) {
           alert("Please provide your waiver signature.");
-          e.preventDefault();
           return;
         }
 
         if (clientPad.isEmpty()) {
           alert("Please provide your client signature.");
-          e.preventDefault();
           return;
         }
 
@@ -207,9 +207,9 @@
         waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
         privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
 
-        // ✅ Allow form to submit normally (no preventDefault)
+        // Submit after a short delay to ensure values are set
+        setTimeout(() => form.submit(), 50);
       });
-
     });
   </script>
 
