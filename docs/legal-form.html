@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 9:37-->
+  <!--Signature Pad 9:44-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const privacyCanvas = document.getElementById('privacy-signature-pad');
@@ -202,11 +202,14 @@
           return;
         }
 
-        // Replace raw Base64 with link to view page
+        // Set signature links
         clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL());
         waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
         privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
+
+        // ✅ Allow form to submit normally (no preventDefault)
       });
+
     });
   </script>
 
