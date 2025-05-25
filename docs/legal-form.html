@@ -162,30 +162,25 @@
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
 
-    const privacyCanvas = document.getElementById('privacy-signature-pad');
-    const waiverCanvas = document.getElementById('waiver-signature-pad');
     const clientCanvas = document.getElementById('client-signature-pad');
+    const waiverCanvas = document.getElementById('waiver-signature-pad');
+    const privacyCanvas = document.getElementById('privacy-signature-pad');
 
-    const privacyInput = document.getElementById('privacy-signature-input');
-    const waiverInput = document.getElementById('waiver-signature-input');
     const clientInput = document.getElementById('client-signature-input');
+    const waiverInput = document.getElementById('waiver-signature-input');
+    const privacyInput = document.getElementById('privacy-signature-input');
 
-    const privacyPad = new SignaturePad(privacyCanvas);
-    const waiverPad = new SignaturePad(waiverCanvas);
     const clientPad = new SignaturePad(clientCanvas);
+    const waiverPad = new SignaturePad(waiverCanvas);
+    const privacyPad = new SignaturePad(privacyCanvas);
 
     const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
-    function setInputValueOnDraw(pad, input) {
-      pad.onEnd = function () {
-        input.value = viewerURL + encodeURIComponent(pad.toDataURL());
-      };
+    function getSignatureDataURL(pad) {
+      return viewerURL + encodeURIComponent(pad.toDataURL("image/png"));
     }
 
-    setInputValueOnDraw(clientPad, clientInput);
-    setInputValueOnDraw(waiverPad, waiverInput);
-    setInputValueOnDraw(privacyPad, privacyInput);
-
+    // Clear buttons
     document.getElementById('clear-client-signature').addEventListener('click', () => {
       clientPad.clear();
       clientInput.value = '';
@@ -202,13 +197,19 @@
     });
 
     form.addEventListener('submit', function (e) {
+      // Validate signatures
       if (clientPad.isEmpty() || waiverPad.isEmpty() || privacyPad.isEmpty()) {
         e.preventDefault();
-        alert("Please sign all required fields.");
+        alert("Please sign all required signature fields.");
         return;
       }
 
-      // Strip non-digits from phone numbers and ZIP
+      // Set signature input values here — right before submit
+      clientInput.value = getSignatureDataURL(clientPad);
+      waiverInput.value = getSignatureDataURL(waiverPad);
+      privacyInput.value = getSignatureDataURL(privacyPad);
+
+      // Normalize phone/ZIP fields
       ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
         const input = document.getElementById(id);
         if (input) input.value = input.value.replace(/\D/g, '');
