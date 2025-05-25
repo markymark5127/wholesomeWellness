@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 11:40-->
+  <!--Signature Pad 11:44-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -192,13 +192,14 @@
         tmpCanvas.height = originalCanvas.height;
 
         const ctx = tmpCanvas.getContext('2d');
-        ctx.fillStyle = '#ffffff'; // white background
+        ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, tmpCanvas.width, tmpCanvas.height);
         ctx.drawImage(originalCanvas, 0, 0);
 
-        const dataURL = tmpCanvas.toDataURL("image/jpeg", 0.5);
-        return dataURL.split(',')[1];
+        // Compress aggressively and truncate to ~2000 chars
+        return tmpCanvas.toDataURL("image/jpeg", 0.2).split(',')[1].slice(0, 2000);
       }
+
 
       form.addEventListener('submit', function (e) {
         // Validate all signatures
