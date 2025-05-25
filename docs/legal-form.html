@@ -49,13 +49,13 @@
           <label>State:<input name="State" required></label>
           <label>ZIP:<input name="ZIP" required></label>
         </div>
-        <label>Phone Number (Cell):<input name="Cell Phone" required></label>
-        <label>Phone Number (Home):<input name="Home Phone"></label>
+        <label>Phone Number (Cell):<input name="Cell Phone" id="cellPhone" required></label>
+        <label>Phone Number (Home):<input name="Home Phone" id="homePhone"></label>
         <label>Email:<input type="email" name="Email" required></label>
 
         <h3>Emergency Contact</h3>
         <label>Name:<input name="Emergency Name" required></label>
-        <label>Phone:<input name="Emergency Phone" required></label>
+        <label>Phone:<input name="Emergency Phone" id="emergencyPhone" required></label>
         <label>Relationship:<input name="Emergency Relationship" required></label>
 
         <h3>Restrictions (please check any that apply):</h3>
@@ -145,6 +145,14 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/inputmask/5.0.8/inputmask.min.js"></script>
+  
+  <script>
+    Inputmask({"mask": "(999) 999-9999"}).mask("#cellPhone");
+    Inputmask({"mask": "(999) 999-9999"}).mask("#homePhone");
+    Inputmask({"mask": "(999) 999-9999"}).mask("#emergencyPhone");
+  </script>
+
 
   <!--Mobile Menu-->
   <script>
@@ -157,7 +165,7 @@
     });
   </script>
 
-  <!--Signature Pad 10:16-->
+  <!--Signature Pad 10:31-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
