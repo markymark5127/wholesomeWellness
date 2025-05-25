@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 11:44-->
+  <!--Signature Pad 11:51-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -169,6 +169,8 @@
       const privacyInput = document.getElementById('privacy-signature-input');
       const waiverInput = document.getElementById('waiver-signature-input');
       const clientInput = document.getElementById('client-signature-input');
+      
+      const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
       if (!privacyCanvas || !waiverCanvas || !clientCanvas) {
         console.error('One or more signature canvases could not be found.');
@@ -192,14 +194,19 @@
         tmpCanvas.height = originalCanvas.height;
 
         const ctx = tmpCanvas.getContext('2d');
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#ffffff'; // white background
         ctx.fillRect(0, 0, tmpCanvas.width, tmpCanvas.height);
         ctx.drawImage(originalCanvas, 0, 0);
 
-        // Compress aggressively and truncate to ~2000 chars
-        return tmpCanvas.toDataURL("image/jpeg", 0.2).split(',')[1].slice(0, 2000);
+        const dataURL = tmpCanvas.toDataURL("image/jpeg", 0.5);
+        return dataURL.split(',')[1];
       }
-
+      
+      function getSafeSignatureValue(signaturePad) {
+        const base64 = getJpegBase64WithWhiteBg(signaturePad);
+        const maxLength = 1800;
+        return viewerURL + encodeURIComponent(base64.slice(0, maxLength));
+      }
 
       form.addEventListener('submit', function (e) {
         // Validate all signatures
@@ -219,16 +226,11 @@
           return;
         }
 
-        const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
-        clientInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(clientPad));
-        waiverInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(waiverPad));
-        privacyInput.value = viewerURL + encodeURIComponent(getJpegBase64WithWhiteBg(privacyPad));
+  
+        clientInput.value = getSafeSignatureValue(clientPad);
+        waiverInput.value = getSafeSignatureValue(waiverPad);
+        privacyInput.value = getSafeSignatureValue(privacyPad);
         
-<!--        clientInput.value = "signed";-->
-<!--        waiverInput.value = "signed";-->
-<!--        privacyInput.value = "signed";-->
-
-
 
         // Strip non-digit characters from phone numbers and ZIP
         ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
