@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 11:51-->
+  <!--Signature Pad 11:56-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -204,7 +204,7 @@
       
       function getSafeSignatureValue(signaturePad) {
         const base64 = getJpegBase64WithWhiteBg(signaturePad);
-        const maxLength = 1800;
+        const maxLength = 5000;
         return viewerURL + encodeURIComponent(base64.slice(0, maxLength));
       }
 
