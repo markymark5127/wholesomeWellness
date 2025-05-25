@@ -116,7 +116,7 @@
         personal health information, but this must be in writing.</p>
 
         <h3>Receipt of Notice of Privacy Practices Written Acknowledgement Form</h3>
-        <p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
+        <p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;" required>, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
         <label>Signature of Client or Guardian:</label>
         <div class="signature-wrapper">
           <canvas id="privacy-signature-pad" width="400" height="150"></canvas>
@@ -126,7 +126,7 @@
         <label>Date:<input type="date" name="Privacy Date" required></label>
 
         <h3>Client Waiver - Assisted Lymphatic Therapy</h3>
-        <p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;">, hereby acknowledge under oath that I am the Client of WholeSoul Wellness, LLC and I hereby give my permission to participate in Lymphatic Therapy, RBTI, Wellness Consultation, Shamanic sessions, and any other services offered by WholeSoul Wellness, LLC. As an integral part of such permission, I recognize that Lymphatic Therapy is a naturalist, experimental,alternative procedure whose purpose is not in diagnosing, healing, or curing; but to help promote good health and well-being. Therefore, I hereby agree to hold WholeSoul Wellness, LLC harmless from and against any and all claims,demands, liabilities, actions, causes of actions, damages and/or expenses, of any nature and kind without limitation, arising from my direct or indirect participation in any of the aforementioned therapies. I hereby acknowledge that I assume the risk of any and I will assume all damages if ever needed. I waive any cause of action that I might have at any time against WholeSoul Wellness, LLC or that I might thereafter accrue as a result of any therapeutic services. I have had an opportunity to review this waiver and ask any question concerning its meaning or intent. I verify that I have read this entire document, have had reasonable opportunity to ask questions concerning its application, understand its contents, and acknowledge that the various information provided throughout this document is accurate and complete. I further acknowledge and verify that I have full legal authority to execute this document and there are no requirements, conditions, or obligations, legal or otherwise, which would require the consent or assent of anyother person or entity.</p>
+        <p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;" required>, hereby acknowledge under oath that I am the Client of WholeSoul Wellness, LLC and I hereby give my permission to participate in Lymphatic Therapy, RBTI, Wellness Consultation, Shamanic sessions, and any other services offered by WholeSoul Wellness, LLC. As an integral part of such permission, I recognize that Lymphatic Therapy is a naturalist, experimental,alternative procedure whose purpose is not in diagnosing, healing, or curing; but to help promote good health and well-being. Therefore, I hereby agree to hold WholeSoul Wellness, LLC harmless from and against any and all claims,demands, liabilities, actions, causes of actions, damages and/or expenses, of any nature and kind without limitation, arising from my direct or indirect participation in any of the aforementioned therapies. I hereby acknowledge that I assume the risk of any and I will assume all damages if ever needed. I waive any cause of action that I might have at any time against WholeSoul Wellness, LLC or that I might thereafter accrue as a result of any therapeutic services. I have had an opportunity to review this waiver and ask any question concerning its meaning or intent. I verify that I have read this entire document, have had reasonable opportunity to ask questions concerning its application, understand its contents, and acknowledge that the various information provided throughout this document is accurate and complete. I further acknowledge and verify that I have full legal authority to execute this document and there are no requirements, conditions, or obligations, legal or otherwise, which would require the consent or assent of anyother person or entity.</p>
         <label><div class="signature-line">Signed this the <input name="Waiver Day" maxlength="2" required> day of <input name="Waiver Month" required>, 20<input name="Waiver Year" maxlength="2" required></div></label>
         <label>Signature:</label>
         <div class="signature-wrapper">
@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 10:10-->
+  <!--Signature Pad 10:16-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -185,17 +185,18 @@
       const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
       form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
         if (privacyPad.isEmpty()) {
+          e.preventDefault();
           alert("Please provide your privacy signature.");
           return;
         }
         if (waiverPad.isEmpty()) {
+          e.preventDefault();
           alert("Please provide your waiver signature.");
           return;
         }
         if (clientPad.isEmpty()) {
+          e.preventDefault();
           alert("Please provide your client signature.");
           return;
         }
@@ -205,20 +206,10 @@
         waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
         privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
 
-        // ✅ Now actually submit the form
-        setTimeout(() => {
-          const tempSubmit = document.createElement("input");
-          tempSubmit.type = "submit";
-          tempSubmit.style.display = "none";
-          form.appendChild(tempSubmit);
-          tempSubmit.click();
-          form.removeChild(tempSubmit);
-        }, 100);
+        // Let the form submit naturally
       });
-
     });
   </script>
-
 
 </body>
 
