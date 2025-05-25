@@ -204,7 +204,7 @@
       
       function getSafeSignatureValue(signaturePad) {
         const base64 = getJpegBase64WithWhiteBg(signaturePad);
-        const maxLength = 5000;
+        const maxLength = 3500;
         return viewerURL + encodeURIComponent(base64.slice(0, maxLength));
       }
 
