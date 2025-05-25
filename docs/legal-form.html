@@ -157,7 +157,7 @@
     });
   </script>
 
-  <!--Signature Pad 9:49-->
+  <!--Signature Pad 9:57-->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.querySelector('form');
@@ -185,31 +185,30 @@
       const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
       form.addEventListener('submit', function (e) {
-        e.preventDefault(); // Always stop default first
+        e.preventDefault();
 
         if (privacyPad.isEmpty()) {
           alert("Please provide your privacy signature.");
           return;
         }
-
         if (waiverPad.isEmpty()) {
           alert("Please provide your waiver signature.");
           return;
         }
-
         if (clientPad.isEmpty()) {
           alert("Please provide your client signature.");
           return;
         }
 
-        // Set signature links
+        // Assign image URLs to hidden fields
         clientInput.value = viewerURL + encodeURIComponent(clientPad.toDataURL());
         waiverInput.value = viewerURL + encodeURIComponent(waiverPad.toDataURL());
         privacyInput.value = viewerURL + encodeURIComponent(privacyPad.toDataURL());
 
-        // Submit after a short delay to ensure values are set
-        setTimeout(() => form.submit(), 50);
+        // ✅ Now actually submit the form
+        setTimeout(() => form.submit(), 100); // slight delay ensures DOM updates
       });
+
     });
   </script>
 
