@@ -97,7 +97,7 @@
 
         <label>Client Signature:</label>
         <div class="signature-wrapper">
-          <canvas id="client-signature-pad" width="400" height="150"></canvas>
+          <canvas id="client-signature-pad" width="200" height="75"></canvas>
           <button type="button" id="clear-client-signature">Clear</button>
         </div>
         <input type="hidden" name="Client Signature Drawn" id="client-signature-input">
@@ -119,7 +119,7 @@
         <p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;" required>, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
         <label>Signature of Client or Guardian:</label>
         <div class="signature-wrapper">
-          <canvas id="privacy-signature-pad" width="400" height="150"></canvas>
+          <canvas id="privacy-signature-pad" width="200" height="75"></canvas>
           <button type="button" id="clear-privacy-signature">Clear</button>
         </div>
         <input type="hidden" name="Privacy Signature Drawn" id="privacy-signature-input">
@@ -130,7 +130,7 @@
         <label><div class="signature-line">Signed this the <input name="Waiver Day" maxlength="2" required> day of <input name="Waiver Month" required>, 20<input name="Waiver Year" maxlength="2" required></div></label>
         <label>Signature:</label>
         <div class="signature-wrapper">
-          <canvas id="waiver-signature-pad" width="400" height="150"></canvas>
+          <canvas id="waiver-signature-pad" width="200" height="75"></canvas>
           <button type="button" id="clear-waiver-signature">Clear</button>
         </div>
         <input type="hidden" name="Waiver Signature Drawn" id="waiver-signature-input">
@@ -157,7 +157,7 @@
     });
   </script>
 
-<!--  Signature Pad 10:15-->
+<!--  Signature Pad 10:33-->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
@@ -182,10 +182,11 @@
 
     const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
-    // Define your JPEG quality here (a value between 0 and 1)
-    // 0.7 or 0.8 is a good starting point for signatures to avoid blurriness
-    const JPEG_QUALITY = 0.1; // Let's try 0.7 as a balanced quality
+    // Use your preferred JPEG quality
+    const JPEG_QUALITY = 0.1;
 
+    // Define the maximum allowed URI length. 6000 is a good, safe upper bound.
+    const MAX_URI_LENGTH = 6000; // You can adjust this based on your testing
 
     // Function to set white background for a canvas, drawing *behind* existing content
     function setCanvasBackgroundToWhite(canvas) {
@@ -202,14 +203,11 @@
     }
 
     // Initialize canvases with a white background when the page loads
-    // This ensures they are white initially
     setCanvasBackgroundToWhite(clientCanvas);
     setCanvasBackgroundToWhite(waiverCanvas);
     setCanvasBackgroundToWhite(privacyCanvas);
 
-
     // Override SignaturePad's clear() to also apply white background
-    // This ensures that when 'clear' is clicked, the background is reset to white
     const originalClientClear = clientPad.clear;
     clientPad.clear = function() {
       originalClientClear.call(this); // Call the original clear method
@@ -228,34 +226,44 @@
       setCanvasBackgroundToWhite(privacyCanvas);
     };
 
+    // Modified function to get signature data URL with length check
+    function getSignatureDataURL(pad, canvas, inputElement) {
+        // Ensure white background is applied before conversion
+        setCanvasBackgroundToWhite(canvas);
 
-    function getSignatureDataURL(pad, canvas) {
-      // It's still good practice to ensure the background is white before conversion,
-      // especially if any drawing occurred without a preceding 'clear' or if
-      // the pad was already empty when the form was submitted.
-      setCanvasBackgroundToWhite(canvas); // Ensure background is white before conversion
-      return viewerURL + encodeURIComponent(pad.toDataURL("image/jpeg", JPEG_QUALITY));
+        // Convert to JPEG with the specified quality
+        const dataURL = pad.toDataURL("image/jpeg", JPEG_QUALITY);
+        const encodedDataURL = encodeURIComponent(dataURL);
+
+        if (encodedDataURL.length > MAX_URI_LENGTH) {
+            // Clear the pad and input if too long
+            pad.clear(); // Clears drawn lines
+            setCanvasBackgroundToWhite(canvas); // Re-apply white background after clear
+            inputElement.value = ''; // Clear the hidden input value
+            return { success: false, message: "Signature image is too large. Please try signing with fewer or lighter strokes, or clear and sign again." };
+        } else {
+            return { success: true, data: viewerURL + encodedDataURL };
+        }
     }
-
 
     // Clear buttons
     document.getElementById('clear-client-signature').addEventListener('click', () => {
-      clientPad.clear(); // This now uses the overridden clear that adds white background
+      clientPad.clear();
       clientInput.value = '';
     });
 
     document.getElementById('clear-waiver-signature').addEventListener('click', () => {
-      waiverPad.clear(); // This now uses the overridden clear that adds white background
+      waiverPad.clear();
       waiverInput.value = '';
     });
 
     document.getElementById('clear-privacy-signature').addEventListener('click', () => {
-      privacyPad.clear(); // This now uses the overridden clear that adds white background
+      privacyPad.clear();
       privacyInput.value = '';
     });
 
     form.addEventListener('submit', function (e) {
-      // Validate signatures
+      // Validate signatures for emptiness
       if (clientPad.isEmpty()) {
         e.preventDefault();
         alert("Please provide your client signature.");
@@ -272,11 +280,46 @@
         return;
       }
 
-      // Set signature input values here — right before submit
-      // Pass the corresponding canvas to getSignatureDataURL to ensure background fill
-      clientInput.value = getSignatureDataURL(clientPad, clientCanvas);
-      waiverInput.value = getSignatureDataURL(waiverPad, waiverCanvas);
-      privacyInput.value = getSignatureDataURL(privacyPad, privacyCanvas);
+      let signaturesValid = true; // Flag to track overall signature validity
+
+      // Process Client Signature
+      const clientSignatureResult = getSignatureDataURL(clientPad, clientCanvas, clientInput);
+      if (clientSignatureResult.success) {
+          clientInput.value = clientSignatureResult.data;
+      } else {
+          e.preventDefault(); // Prevent form submission
+          alert(clientSignatureResult.message); // Show error message
+          signaturesValid = false; // Mark form as invalid
+      }
+
+      // Process Waiver Signature
+      const waiverSignatureResult = getSignatureDataURL(waiverPad, waiverCanvas, waiverInput);
+      if (waiverSignatureResult.success) {
+          waiverInput.value = waiverSignatureResult.data;
+      } else {
+          if (signaturesValid) { // Only alert for the first failure
+              e.preventDefault();
+              alert(waiverSignatureResult.message);
+          }
+          signaturesValid = false;
+      }
+
+      // Process Privacy Signature
+      const privacySignatureResult = getSignatureDataURL(privacyPad, privacyCanvas, privacyInput);
+      if (privacySignatureResult.success) {
+          privacyInput.value = privacySignatureResult.data;
+      } else {
+          if (signaturesValid) { // Only alert for the first failure
+              e.preventDefault();
+              alert(privacySignatureResult.message);
+          }
+          signaturesValid = false;
+      }
+
+      // If any signature failed the length check, stop form submission
+      if (!signaturesValid) {
+          return;
+      }
 
       // Normalize phone/ZIP fields
       ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
