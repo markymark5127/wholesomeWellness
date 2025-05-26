@@ -157,7 +157,7 @@
     });
   </script>
 
-<!--  Signature Pad 9:58-->
+<!--  Signature Pad 10:06-->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
@@ -182,21 +182,34 @@
 
     const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
-    const JPEG_QUALITY = 0.8; // Adjust this value (0 to 1) for desired quality/file size
+    // Define your JPEG quality here (a value between 0 and 1)
+    // 0.7 or 0.8 is a good starting point for signatures to avoid blurriness
+    const JPEG_QUALITY = 0.7; // Let's try 0.7 as a balanced quality
 
-    // Function to set white background for a canvas
+
+    // Function to set white background for a canvas, drawing *behind* existing content
     function setCanvasBackgroundToWhite(canvas) {
       const context = canvas.getContext('2d');
+      // Store the current transformation matrix and state
+      context.save();
+      // Use the 'destination-over' compositing operation to draw behind existing content
+      // This is crucial: it paints the white rectangle *under* the drawn lines.
+      context.globalCompositeOperation = 'destination-over';
       context.fillStyle = 'white';
       context.fillRect(0, 0, canvas.width, canvas.height);
+      // Restore the transformation matrix and state
+      context.restore();
     }
 
     // Initialize canvases with a white background when the page loads
+    // This ensures they are white initially
     setCanvasBackgroundToWhite(clientCanvas);
     setCanvasBackgroundToWhite(waiverCanvas);
     setCanvasBackgroundToWhite(privacyCanvas);
 
+
     // Override SignaturePad's clear() to also apply white background
+    // This ensures that when 'clear' is clicked, the background is reset to white
     const originalClientClear = clientPad.clear;
     clientPad.clear = function() {
       originalClientClear.call(this); // Call the original clear method
@@ -217,13 +230,13 @@
 
 
     function getSignatureDataURL(pad, canvas) {
-      // If the pad is empty, we don't want to send a blank black image.
-      // Instead, we can send a truly empty data URL or handle it upstream.
-      // However, since we require signatures, this won't be reached if empty.
-      // Ensure white background is applied before converting to JPEG
-      setCanvasBackgroundToWhite(canvas); // Re-apply in case drawing didn't fill it
+      // It's still good practice to ensure the background is white before conversion,
+      // especially if any drawing occurred without a preceding 'clear' or if
+      // the pad was already empty when the form was submitted.
+      setCanvasBackgroundToWhite(canvas); // Ensure background is white before conversion
       return viewerURL + encodeURIComponent(pad.toDataURL("image/jpeg", JPEG_QUALITY));
     }
+
 
     // Clear buttons
     document.getElementById('clear-client-signature').addEventListener('click', () => {
