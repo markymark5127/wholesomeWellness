@@ -196,13 +196,13 @@
       privacyInput.value = '';
     });
 
-    form.addEventListener('submit', function (e) {
+    /*form.addEventListener('submit', function (e) {
       // Validate signatures
       if (clientPad.isEmpty() || waiverPad.isEmpty() || privacyPad.isEmpty()) {
         e.preventDefault();
         alert("Please sign all required signature fields.");
         return;
-      }
+      }*/
 
       // Set signature input values here — right before submit
       clientInput.value = getSignatureDataURL(clientPad);
