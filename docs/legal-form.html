@@ -157,7 +157,7 @@
     });
   </script>
 
-<!--  Signature Pad 9:34-->
+<!--  Signature Pad 9:54-->
 <script>
   document.addEventListener('DOMContentLoaded', function () {
     const form = document.querySelector('form');
@@ -165,6 +165,12 @@
     const clientCanvas = document.getElementById('client-signature-pad');
     const waiverCanvas = document.getElementById('waiver-signature-pad');
     const privacyCanvas = document.getElementById('privacy-signature-pad');
+
+    // Ensure all canvases are found before proceeding
+    if (!clientCanvas || !waiverCanvas || !privacyCanvas) {
+      console.error('One or more signature canvases could not be found.');
+      return;
+    }
 
     const clientInput = document.getElementById('client-signature-input');
     const waiverInput = document.getElementById('waiver-signature-input');
@@ -176,38 +182,88 @@
 
     const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
 
-    function getSignatureDataURL(pad) {
-      return viewerURL + encodeURIComponent(pad.toDataURL("image/png"));
+    const JPEG_QUALITY = 0.3; // Adjust this value (0 to 1) for desired quality/file size
+
+    // Function to set white background for a canvas
+    function setCanvasBackgroundToWhite(canvas) {
+      const context = canvas.getContext('2d');
+      context.fillStyle = 'white';
+      context.fillRect(0, 0, canvas.width, canvas.height);
+    }
+
+    // Initialize canvases with a white background when the page loads
+    setCanvasBackgroundToWhite(clientCanvas);
+    setCanvasBackgroundToWhite(waiverCanvas);
+    setCanvasBackgroundToWhite(privacyCanvas);
+
+    // Override SignaturePad's clear() to also apply white background
+    const originalClientClear = clientPad.clear;
+    clientPad.clear = function() {
+      originalClientClear.call(this); // Call the original clear method
+      setCanvasBackgroundToWhite(clientCanvas); // Then apply white background
+    };
+
+    const originalWaiverClear = waiverPad.clear;
+    waiverPad.clear = function() {
+      originalWaiverClear.call(this);
+      setCanvasBackgroundToWhite(waiverCanvas);
+    };
+
+    const originalPrivacyClear = privacyPad.clear;
+    privacyPad.clear = function() {
+      originalPrivacyClear.call(this);
+      setCanvasBackgroundToWhite(privacyCanvas);
+    };
+
+
+    function getSignatureDataURL(pad, canvas) {
+      // If the pad is empty, we don't want to send a blank black image.
+      // Instead, we can send a truly empty data URL or handle it upstream.
+      // However, since we require signatures, this won't be reached if empty.
+      // Ensure white background is applied before converting to JPEG
+      setCanvasBackgroundToWhite(canvas); // Re-apply in case drawing didn't fill it
+      return viewerURL + encodeURIComponent(pad.toDataURL("image/jpeg", JPEG_QUALITY));
     }
 
     // Clear buttons
     document.getElementById('clear-client-signature').addEventListener('click', () => {
-      clientPad.clear();
+      clientPad.clear(); // This now uses the overridden clear that adds white background
       clientInput.value = '';
     });
 
     document.getElementById('clear-waiver-signature').addEventListener('click', () => {
-      waiverPad.clear();
+      waiverPad.clear(); // This now uses the overridden clear that adds white background
       waiverInput.value = '';
     });
 
     document.getElementById('clear-privacy-signature').addEventListener('click', () => {
-      privacyPad.clear();
+      privacyPad.clear(); // This now uses the overridden clear that adds white background
       privacyInput.value = '';
     });
 
-    /*form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', function (e) {
       // Validate signatures
-      if (clientPad.isEmpty() || waiverPad.isEmpty() || privacyPad.isEmpty()) {
+      if (clientPad.isEmpty()) {
         e.preventDefault();
-        alert("Please sign all required signature fields.");
+        alert("Please provide your client signature.");
         return;
-      }*/
+      }
+      if (waiverPad.isEmpty()) {
+        e.preventDefault();
+        alert("Please provide your waiver signature.");
+        return;
+      }
+      if (privacyPad.isEmpty()) {
+        e.preventDefault();
+        alert("Please provide your privacy signature.");
+        return;
+      }
 
       // Set signature input values here — right before submit
-      clientInput.value = getSignatureDataURL(clientPad);
-      waiverInput.value = getSignatureDataURL(waiverPad);
-      privacyInput.value = getSignatureDataURL(privacyPad);
+      // Pass the corresponding canvas to getSignatureDataURL to ensure background fill
+      clientInput.value = getSignatureDataURL(clientPad, clientCanvas);
+      waiverInput.value = getSignatureDataURL(waiverPad, waiverCanvas);
+      privacyInput.value = getSignatureDataURL(privacyPad, privacyCanvas);
 
       // Normalize phone/ZIP fields
       ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
@@ -217,7 +273,6 @@
     });
   });
 </script>
-
   
 </body>
 
