@@ -240,7 +240,7 @@
             pad.clear(); // Clears drawn lines
             setCanvasBackgroundToWhite(canvas); // Re-apply white background after clear
             inputElement.value = ''; // Clear the hidden input value
-            return { success: false, message: "Signature image is too large. Please try signing with fewer or lighter strokes, or clear and sign again." };
+            return { success: false, message: "Signature Error. Please try signing again." };
         } else {
             return { success: true, data: viewerURL + encodedDataURL };
         }
