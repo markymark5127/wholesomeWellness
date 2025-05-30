@@ -8,12 +8,23 @@
   <link rel="stylesheet" href="styles/main.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    .services-banner {
+      background-image: url("assets/room.jpg");
+      background-size: cover;
+      background-position: center;
+      padding: 80px 20px;
+      color: white;
+      text-align: center;
+      text-shadow: 0 2px 5px rgba(0,0,0,0.6);
+    }
+
     .services-container {
       max-width: 800px;
       margin: auto;
       padding: 40px 20px;
       text-align: left;
     }
+
     .service-plan {
       background: #f0f9f5;
       padding: 20px;
@@ -21,6 +32,7 @@
       margin-bottom: 20px;
       border-radius: 6px;
     }
+
     .service-plan h3 {
       margin-top: 0;
       color: #2a7f5f;
@@ -43,9 +55,13 @@
       </ul>
     </nav>
   </header>
+
+  <section class="services-banner">
+    <h2>Our Services</h2>
+  </section>
+
   <main>
     <section class="services-container">
-      <h2>Our Services</h2>
       <div class="service-plan">
         <h3>1 ALT Sessions</h3>
         <p>Each session is 60–75 minutes.<br><strong>Price: $120</strong></p>
@@ -60,10 +76,12 @@
       </div>
     </section>
   </main>
+
   <footer>
     <p>📍 1600 6th Ave Suite 103, York PA, 17403 | 📞 (717) 495-6303 | ✉ wholesoulyork@gmail.com</p>
     <p>© 2025 WholeSoul Wellness</p>
   </footer>
+
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const toggle = document.querySelector('.menu-toggle');
