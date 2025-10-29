@@ -29,10 +29,8 @@
     <section class="intro">
       <h2>Client Intake & Consent Form</h2>
       <p><strong>In preparation for your Lymphatic Therapy session:</strong> Please refrain from wearing any lotions and deodorant. Be sure to hydrate the day before therapy and the day of therapy, and wear cotton underwear if possible.</p>
-      <form action="https://formsubmit.co/3bc520c1e6b1a91be7285bdead834e0a" method="POST">
-        <input type="hidden" name="_template" value="table">
-        <input type="hidden" name="_next" value="https://wholesoulyork.com/thank-you.html">
-        <input type="hidden" name="_autoresponse" value="Thanks for submitting your form! We’ll be in touch soon.">
+      <form id="wellness-form" action="/api/submit-form" method="POST" enctype="multipart/form-data">
+        <!-- Form now uses our own serverless function - no third-party service needed! -->
 
         <div class="row-2">
           <label>First Name:<input name="First Name" required></label>
@@ -52,6 +50,10 @@
         <label>Phone Number (Cell):<input name="Cell Phone" id="cellPhone" placeholder="7175557872" required></label>
         <label>Phone Number (Home):<input name="Home Phone" id="homePhone" placeholder="7175557872"></label>
         <label>Email:<input type="email" name="Email" required></label>
+
+        <h3>Attachments (Optional)</h3>
+        <label>Upload Documents (Insurance, ID, Medical Records, etc.):<input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple></label>
+        <p style="font-size: 0.9em; color: #666;">You can upload multiple files. Max 2MB per file. Accepted formats: PDF, JPG, PNG, DOC, DOCX</p>
 
         <h3>Emergency Contact</h3>
         <label>Name:<input name="Emergency Name" required></label>
@@ -135,7 +137,8 @@
         </div>
         <input type="hidden" name="Waiver Signature Drawn" id="waiver-signature-input">
         <label>Printed Name:<input name="Waiver Name" required></label>
-        <button type="submit">Submit Form</button>
+        <div id="form-message" style="display: none; padding: 10px; margin: 10px 0; border-radius: 5px;"></div>
+        <button type="submit" id="submit-btn">Submit Form</button>
       </form>
     </section>
   </main>
@@ -262,21 +265,23 @@
       privacyInput.value = '';
     });
 
-    form.addEventListener('submit', function (e) {
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault(); // Always prevent default to handle submission manually
+
+      const submitBtn = document.getElementById('submit-btn');
+      const formMessage = document.getElementById('form-message');
+
       // Validate signatures for emptiness
       if (clientPad.isEmpty()) {
-        e.preventDefault();
-        alert("Please provide your client signature.");
+        showMessage("Please provide your client signature.", "error");
         return;
       }
       if (waiverPad.isEmpty()) {
-        e.preventDefault();
-        alert("Please provide your waiver signature.");
+        showMessage("Please provide your waiver signature.", "error");
         return;
       }
       if (privacyPad.isEmpty()) {
-        e.preventDefault();
-        alert("Please provide your privacy signature.");
+        showMessage("Please provide your privacy signature.", "error");
         return;
       }
 
@@ -287,9 +292,8 @@
       if (clientSignatureResult.success) {
           clientInput.value = clientSignatureResult.data;
       } else {
-          e.preventDefault(); // Prevent form submission
-          alert(clientSignatureResult.message); // Show error message
-          signaturesValid = false; // Mark form as invalid
+          showMessage(clientSignatureResult.message, "error");
+          signaturesValid = false;
       }
 
       // Process Waiver Signature
@@ -297,9 +301,8 @@
       if (waiverSignatureResult.success) {
           waiverInput.value = waiverSignatureResult.data;
       } else {
-          if (signaturesValid) { // Only alert for the first failure
-              e.preventDefault();
-              alert(waiverSignatureResult.message);
+          if (signaturesValid) {
+              showMessage(waiverSignatureResult.message, "error");
           }
           signaturesValid = false;
       }
@@ -309,9 +312,8 @@
       if (privacySignatureResult.success) {
           privacyInput.value = privacySignatureResult.data;
       } else {
-          if (signaturesValid) { // Only alert for the first failure
-              e.preventDefault();
-              alert(privacySignatureResult.message);
+          if (signaturesValid) {
+              showMessage(privacySignatureResult.message, "error");
           }
           signaturesValid = false;
       }
@@ -326,7 +328,57 @@
         const input = document.getElementById(id);
         if (input) input.value = input.value.replace(/\D/g, '');
       });
+
+      // Disable submit button and show loading state
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      try {
+        const formData = new FormData(form);
+        // Convert FormData to JSON object
+        const jsonData = {};
+        formData.forEach((value, key) => {
+          jsonData[key] = value;
+        });
+
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(jsonData)
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          // Success - redirect to thank you page
+          window.location.href = "thank-you.html";
+        } else {
+          // Show error message
+          showMessage("Error: " + (data.message || "Failed to submit form. Please try again."), "error");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit Form";
+        }
+      } catch (error) {
+        showMessage("Network error. Please check your connection and try again.", "error");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Form";
+      }
     });
+
+    // Helper function to show messages
+    function showMessage(message, type) {
+      const formMessage = document.getElementById('form-message');
+      formMessage.textContent = message;
+      formMessage.style.display = 'block';
+      formMessage.style.backgroundColor = type === 'error' ? '#ffebee' : '#e8f5e9';
+      formMessage.style.color = type === 'error' ? '#c62828' : '#2e7d32';
+      formMessage.style.border = type === 'error' ? '1px solid #ef5350' : '1px solid #66bb6a';
+
+      // Scroll to message
+      formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
   });
 </script>
   
