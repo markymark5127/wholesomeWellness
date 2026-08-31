@@ -2,10 +2,30 @@ document.addEventListener("DOMContentLoaded", function () {
   var form = document.getElementById("wellness-form");
   if (!form || typeof SignaturePad === "undefined") return;
 
+  form.setAttribute("action", "https://formsubmit.co/wholesoulyork@gmail.com");
+  form.setAttribute("method", "POST");
+  form.setAttribute("enctype", "multipart/form-data");
+
+  function ensureHidden(name, value) {
+    var existing = form.querySelector('input[name="' + name + '"]');
+    if (!existing) {
+      existing = document.createElement("input");
+      existing.type = "hidden";
+      existing.name = name;
+      form.appendChild(existing);
+    }
+    existing.value = value;
+  }
+
+  ensureHidden("_subject", "New Client Intake Form - WholeSoul Wellness");
+  ensureHidden("_template", "table");
+  ensureHidden("_captcha", "false");
+  ensureHidden("_next", "https://wholesoulyork.com/thank-you.html");
+
   var setups = [
-    { canvas: "client-signature-pad", input: "client-signature-input", clear: "clear-client-signature", label: "client signature" },
-    { canvas: "privacy-signature-pad", input: "privacy-signature-input", clear: "clear-privacy-signature", label: "privacy signature" },
-    { canvas: "waiver-signature-pad", input: "waiver-signature-input", clear: "clear-waiver-signature", label: "waiver signature" }
+    { canvas: "client-signature-pad", input: "client-signature-input", clear: "clear-client-signature", label: "client signature", fileName: "client-signature.jpg", field: "Client Signature Image" },
+    { canvas: "privacy-signature-pad", input: "privacy-signature-input", clear: "clear-privacy-signature", label: "privacy signature", fileName: "privacy-signature.jpg", field: "Privacy Signature Image" },
+    { canvas: "waiver-signature-pad", input: "waiver-signature-input", clear: "clear-waiver-signature", label: "waiver signature", fileName: "waiver-signature.jpg", field: "Waiver Signature Image" }
   ];
 
   function resizeCanvas(canvas, pad) {
@@ -27,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var pads = setups.map(function (item) {
     var canvas = document.getElementById(item.canvas);
     var input = document.getElementById(item.input);
-    if (!canvas || !input) return null;
+    if (!canvas) return null;
     var pad = new SignaturePad(canvas, {
       backgroundColor: "rgb(255,255,255)",
       penColor: "rgb(20,40,32)"
@@ -37,10 +57,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (clearBtn) {
       clearBtn.addEventListener("click", function () {
         pad.clear();
-        input.value = "";
+        if (input) input.value = "";
       });
     }
-    return { pad: pad, canvas: canvas, input: input, label: item.label };
+    return {
+      pad: pad,
+      canvas: canvas,
+      input: input,
+      label: item.label,
+      fileName: item.fileName,
+      field: item.field
+    };
   }).filter(Boolean);
 
   var resizeTimer;
@@ -63,42 +90,35 @@ document.addEventListener("DOMContentLoaded", function () {
     box.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
-  function accepted(response, data) {
-    if (!response || !response.ok) return false;
-    if (data.success === false || data.success === "false") return false;
-    return true;
+  function tinySignatureBlob(pad) {
+    return new Promise(function (resolve, reject) {
+      var exportCanvas = document.createElement("canvas");
+      exportCanvas.width = 280;
+      exportCanvas.height = 90;
+      var ctx = exportCanvas.getContext("2d");
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+      ctx.drawImage(pad.canvas, 0, 0, exportCanvas.width, exportCanvas.height);
+      exportCanvas.toBlob(function (blob) {
+        if (!blob) reject(new Error("Could not save signature"));
+        else resolve(blob);
+      }, "image/jpeg", 0.35);
+    });
   }
 
-  function buildPayload() {
-    var payload = {
-      _subject: "New Client Intake Form - WholeSoul Wellness",
-      _template: "table",
-      _captcha: "false",
-      "Client signature captured": "Yes",
-      "Privacy signature captured": "Yes",
-      "Waiver signature captured": "Yes"
-    };
-
-    new FormData(form).forEach(function (value, key) {
-      if (typeof File !== "undefined" && value instanceof File) return;
-      if (key.indexOf("Signature Drawn") !== -1) return;
-      if (typeof value === "string" && value.trim()) payload[key] = value;
-    });
-
-    return payload;
-  }
-
-  async function sendToFormSubmit(payload) {
-    var response = await fetch("https://formsubmit.co/ajax/wholesoulyork@gmail.com", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json"
-      },
-      body: JSON.stringify(payload)
-    });
-    var data = await response.json().catch(function () { return {}; });
-    return { response: response, data: data };
+  function assignFile(fieldName, file) {
+    var input = form.querySelector('input[type="file"][name="' + fieldName + '"]');
+    if (!input) {
+      input = document.createElement("input");
+      input.type = "file";
+      input.name = fieldName;
+      input.accept = "image/jpeg";
+      input.hidden = true;
+      form.appendChild(input);
+    }
+    var transfer = new DataTransfer();
+    transfer.items.add(file);
+    input.files = transfer.files;
   }
 
   form.addEventListener("submit", async function (e) {
@@ -116,20 +136,31 @@ document.addEventListener("DOMContentLoaded", function () {
       if (field) field.value = field.value.replace(/\D/g, "");
     });
 
+    var fileInput = form.querySelector('input[type="file"][name="attachment"]');
+    var extraFiles = fileInput && fileInput.files ? Array.from(fileInput.files) : [];
+    var extraBytes = extraFiles.reduce(function (sum, file) { return sum + file.size; }, 0);
+    if (extraBytes > 8 * 1024 * 1024) {
+      showMessage("Please keep extra documents under 8MB total so FormSubmit can email them.", "error");
+      return;
+    }
+
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
 
     try {
-      var result = await sendToFormSubmit(buildPayload());
-      if (accepted(result.response, result.data)) {
-        window.location.href = "thank-you.html";
-        return;
-      }
+      var blobs = await Promise.all(pads.map(function (item) {
+        return tinySignatureBlob(item.pad);
+      }));
 
-      var message = result.data.message || "FormSubmit did not accept the form.";
-      throw new Error(message);
+      pads.forEach(function (item, index) {
+        var file = new File([blobs[index]], item.fileName, { type: "image/jpeg" });
+        assignFile(item.field, file);
+        if (item.input) item.input.value = "Attached as " + item.fileName;
+      });
+
+      form.submit();
     } catch (err) {
-      showMessage((err && err.message ? err.message : "Submit failed") + " Check wholesoulyork@gmail.com (and spam) for a FormSubmit confirmation email if this is the first test.", "error");
+      showMessage(err && err.message ? err.message : "Could not prepare the signatures.", "error");
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit Form";
     }
