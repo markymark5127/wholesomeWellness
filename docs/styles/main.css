@@ -280,6 +280,8 @@ footer p { margin: 8px 0; }
 .form-wrap { max-width: 760px; text-align: left; }
 .form-wrap > h1, .form-wrap > h2 { text-align: center; color: var(--green-deep); }
 .prep-note { background: var(--mint); border-radius: 12px; padding: 16px 18px; margin-bottom: 24px; }
+.req { color: #c0392b; font-weight: 700; }
+.req-note { font-size: 0.92rem; color: var(--muted); margin: -8px 0 20px; }
 .form-card {
   background: var(--white);
   border: 1px solid var(--line);
