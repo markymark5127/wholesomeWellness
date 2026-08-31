@@ -3,385 +3,159 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Client Intake & Consent Form - WholeSoul Wellness</title>
+  <meta name="theme-color" content="#2a7f5f">
+  <title>Client Intake & Consent Form | WholeSoul Wellness</title>
+  <link rel="icon" href="assets/logo.png">
   <link rel="stylesheet" href="styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="main-header">
-    <nav>
-      <div class="brand-wrapper">
-        <img src="assets/logo.png" alt="WholeSoul Wellness Logo" class="logo"/>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="" class="logo">
         <span class="site-name">WholeSoul Wellness</span>
-      </div>
-      <button class="menu-toggle">☰</button>
-      <ul>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="alt.html">ALT Info</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="about.html">About Me</a></li>
         <li><a href="contact.html">Contact</a></li>
         <li><a href="book.html">Book</a></li>
-        <li><a href="legal-form.html">Client Form</a></li>
+        <li><a href="legal-form.html" aria-current="page">Client Form</a></li>
       </ul>
     </nav>
   </header>
   <main>
-    <section class="intro">
-      <h2>Client Intake & Consent Form</h2>
-      <p><strong>In preparation for your Lymphatic Therapy session:</strong> Please refrain from wearing any lotions and deodorant. Be sure to hydrate the day before therapy and the day of therapy, and wear cotton underwear if possible.</p>
-      <form id="wellness-form" action="/api/submit-form" method="POST" enctype="multipart/form-data">
-        <!-- Form now uses our own serverless function - no third-party service needed! -->
-
-        <div class="row-2">
-          <label>First Name:<input name="First Name" required></label>
-          <label>Last Name:<input name="Last Name" required></label>
+    <section class="form-wrap">
+      <h1>Client Intake & Consent Form</h1>
+      <p class="prep-note"><strong>Before your session:</strong> Please refrain from wearing lotions and deodorant. Hydrate the day before and the day of therapy, and wear cotton underwear if possible.</p>
+      <form id="wellness-form" action="/api/submit-form" method="POST">
+        <div class="form-card">
+          <h3>Personal Information</h3>
+          <div class="row-2">
+            <label>First Name<input name="First Name" autocomplete="given-name" required></label>
+            <label>Last Name<input name="Last Name" autocomplete="family-name" required></label>
+          </div>
+          <div class="row-3">
+            <label>Date of Birth<input type="date" name="DOB" required></label>
+            <label>Height<input name="Height" placeholder="5'6""></label>
+            <label>Weight<input name="Weight" placeholder="lbs"></label>
+          </div>
+          <label>Address<input name="Address" autocomplete="street-address" required></label>
+          <div class="row-3">
+            <label>City<input name="City" autocomplete="address-level2" required></label>
+            <label>State<input name="State" autocomplete="address-level1" required></label>
+            <label>ZIP<input name="ZIP" id="zip" inputmode="numeric" autocomplete="postal-code" required></label>
+          </div>
+          <label>Cell Phone<input type="tel" name="Cell Phone" id="cellPhone" inputmode="tel" autocomplete="tel" placeholder="7175557872" required></label>
+          <label>Home Phone<input type="tel" name="Home Phone" id="homePhone" inputmode="tel" placeholder="7175557872"></label>
+          <label>Email<input type="email" name="Email" autocomplete="email" required></label>
         </div>
-        <div class="row-3">
-          <label>DOB:<input type="date" name="DOB" required></label>
-          <label>Height:<input name="Height"></label>
-          <label>Weight:<input name="Weight"></label>
+        <div class="form-card">
+          <h3>Attachments (Optional)</h3>
+          <label>Upload documents<input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple></label>
+          <p class="hint">PDF, JPG, PNG, DOC, or DOCX. Max 2MB per file. Attachments are optional and may not come through if email size limits are reached.</p>
         </div>
-        <label>Address:<input name="Address" required></label>
-        <div class="row-3">
-          <label>City:<input name="City" required></label>
-          <label>State:<input name="State" required></label>
-          <label>ZIP:<input name="ZIP" id="zip" required></label>
+        <div class="form-card">
+          <h3>Emergency Contact</h3>
+          <label>Name<input name="Emergency Name" required></label>
+          <label>Phone<input type="tel" name="Emergency Phone" id="emergencyPhone" inputmode="tel" placeholder="7175557872" required></label>
+          <label>Relationship<input name="Emergency Relationship" required></label>
         </div>
-        <label>Phone Number (Cell):<input name="Cell Phone" id="cellPhone" placeholder="7175557872" required></label>
-        <label>Phone Number (Home):<input name="Home Phone" id="homePhone" placeholder="7175557872"></label>
-        <label>Email:<input type="email" name="Email" required></label>
-
-        <h3>Attachments (Optional)</h3>
-        <label>Upload Documents (Insurance, ID, Medical Records, etc.):<input type="file" name="attachment" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx" multiple></label>
-        <p style="font-size: 0.9em; color: #666;">You can upload multiple files. Max 2MB per file. Accepted formats: PDF, JPG, PNG, DOC, DOCX</p>
-
-        <h3>Emergency Contact</h3>
-        <label>Name:<input name="Emergency Name" required></label>
-        <label>Phone:<input name="Emergency Phone" id="emergencyPhone" placeholder="7175557872" required></label>
-        <label>Relationship:<input name="Emergency Relationship" required></label>
-
-        <h3>Restrictions (please check any that apply):</h3>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="Pregnant">Pregnant</label>
-          <label><input type="checkbox" name="Pacemaker">Pacemaker</label>
-          <label><input type="checkbox" name="Acute Infection">Acute Infection</label>
-          <label><input type="checkbox" name="CHF">Congestive Heart Failure</label>
-          <label><input type="checkbox" name="Immunosuppressants">Immunosuppressants</label>
+        <div class="form-card">
+          <h3>Restrictions</h3>
+          <p class="hint">Check any that apply.</p>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="Pregnant">Pregnant</label>
+            <label><input type="checkbox" name="Pacemaker">Pacemaker</label>
+            <label><input type="checkbox" name="Acute Infection">Acute Infection</label>
+            <label><input type="checkbox" name="CHF">Congestive Heart Failure</label>
+            <label><input type="checkbox" name="Immunosuppressants">Immunosuppressants</label>
+          </div>
         </div>
-
-        <h3>Health History</h3>
-        <label>Have you had surgery recently?<textarea name="Recent Surgery"></textarea></label>
-        <label>Have you been diagnosed with Lymphedema? Describe affected areas:<textarea name="Lymphedema"></textarea></label>
-        <label>Have you ever had surgery on your abdomen, chest, or back?<textarea name="Other Surgery"></textarea></label>
-        <label>Have you had lymph nodes removed?<textarea name="Lymph Nodes"></textarea></label>
-        <label>Is there anything else we should know before starting therapy?<textarea name="Other Medical"></textarea></label>
-        <label>Immuno-suppressants you take:<textarea name="Immuno-suppressants"></textarea></label>
-        <label>Allergies (pharmaceutical & environmental):<textarea name="Allergies"></textarea></label>
-        <label>Healthcare provider’s name:<textarea name="Provider"></textarea></label>
-        <label>Current medications:<textarea name="Medications"></textarea></label>
-
-        <h3>Dietary Style</h3>
-        <div class="checkbox-group">
-          <label><input type="checkbox" name="Vegan">Vegan</label>
-          <label><input type="checkbox" name="Vegetarian">Vegetarian</label>
-          <label><input type="checkbox" name="Raw Diet">Raw Diet</label>
-          <label><input type="checkbox" name="Pescatarian">Pescatarian</label>
-          <label><input type="checkbox" name="Keto">Low Carb/Keto</label>
+        <div class="form-card">
+          <h3>Health History</h3>
+          <label>Have you had surgery recently?<textarea name="Recent Surgery"></textarea></label>
+          <label>Have you been diagnosed with Lymphedema? Describe affected areas:<textarea name="Lymphedema"></textarea></label>
+          <label>Have you ever had surgery on your abdomen, chest, or back?<textarea name="Other Surgery"></textarea></label>
+          <label>Have you had lymph nodes removed?<textarea name="Lymph Nodes"></textarea></label>
+          <label>Is there anything else we should know before starting therapy?<textarea name="Other Medical"></textarea></label>
+          <label>Immuno-suppressants you take:<textarea name="Immuno-suppressants"></textarea></label>
+          <label>Allergies (pharmaceutical & environmental):<textarea name="Allergies"></textarea></label>
+          <label>Healthcare provider’s name:<textarea name="Provider"></textarea></label>
+          <label>Current medications:<textarea name="Medications"></textarea></label>
         </div>
-        <label style="display: flex; align-items: center;">Other: <input name="Other Diet" style="margin-left: 8px;"></label>
-
-        <h3>Scales</h3>
-        <label>Stress (1 = NO STRESS, 10 = EXTREME STRESS):<input type="number" name="Stress" min="1" max="10"></label>
-        <label>Type(s) of stress:<input name="Stress Type"></label>
-        <label>Pain (1 = NO PAIN, 10 = EXTREME PAIN):<input type="number" name="Pain" min="1" max="10"></label>
-        <label>Pain Location/Type:<input name="Pain Location"></label>
-        <label>Energy (1 = NO ENERGY, 10 = GREAT ENERGY):<input type="number" name="Energy" min="1" max="10"></label>
-
-        <label>Client Signature:</label>
-        <div class="signature-wrapper">
-          <canvas id="client-signature-pad" width="200" height="75"></canvas>
-          <button type="button" id="clear-client-signature">Clear</button>
+        <div class="form-card">
+          <h3>Dietary Style</h3>
+          <div class="checkbox-group">
+            <label><input type="checkbox" name="Vegan">Vegan</label>
+            <label><input type="checkbox" name="Vegetarian">Vegetarian</label>
+            <label><input type="checkbox" name="Raw Diet">Raw Diet</label>
+            <label><input type="checkbox" name="Pescatarian">Pescatarian</label>
+            <label><input type="checkbox" name="Keto">Low Carb/Keto</label>
+          </div>
+          <label>Other<input name="Other Diet"></label>
         </div>
-        <input type="hidden" name="Client Signature Drawn" id="client-signature-input">
-
-        <h3>Notice of Privacy Practices</h3>
-        <p>The Department of Health and Human Services has established a “Privacy Rule” to help insure that personal health care information is protected
-        for privacy. The Privacy Rule was also created in order to provide a standard for certain health care providers to obtain their client’s consent for
-        uses and disclosures of health information about the client to carry out treatment, payment or health care operations. As our client, we want you
-        to know that we respect the privacy of your personal medical records and that we will do all we can to secure and protect that privacy. We strive
-        to always take reasonable precautions to protect your privacy. When it is appropriate and
-        necessary, we provide the minimum necessary information to only those we feel are in need of your health care information and information about
-        treatment, payment or health care operations, in order to provide health care that is in your best interest. We also want you to know that we
-        support your full access to your personal medical records. We may have indirect treatment relationships with you (such as laboratories that only
-        interact with physicians and not clients), and may have to disclose personal health information for purposes of treatment, payment or health care
-        operations. These entities are most often not required to obtain patient consent. You may refuse to consent to the use or disclosure of your
-        personal health information, but this must be in writing.</p>
-
-        <h3>Receipt of Notice of Privacy Practices Written Acknowledgement Form</h3>
-        <p>I, <input type="text" name="Client Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;" required>, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
-        <label>Signature of Client or Guardian:</label>
-        <div class="signature-wrapper">
-          <canvas id="privacy-signature-pad" width="200" height="75"></canvas>
-          <button type="button" id="clear-privacy-signature">Clear</button>
+        <div class="form-card">
+          <h3>Scales</h3>
+          <label>Stress (1 = no stress, 10 = extreme)<input type="number" name="Stress" min="1" max="10" inputmode="numeric"></label>
+          <label>Type(s) of stress<input name="Stress Type"></label>
+          <label>Pain (1 = no pain, 10 = extreme)<input type="number" name="Pain" min="1" max="10" inputmode="numeric"></label>
+          <label>Pain location / type<input name="Pain Location"></label>
+          <label>Energy (1 = no energy, 10 = great energy)<input type="number" name="Energy" min="1" max="10" inputmode="numeric"></label>
+          <label>Client signature</label>
+          <div class="signature-wrapper">
+            <canvas id="client-signature-pad" width="500" height="160"></canvas>
+            <button type="button" id="clear-client-signature">Clear</button>
+          </div>
+          <input type="hidden" name="Client Signature Drawn" id="client-signature-input">
         </div>
-        <input type="hidden" name="Privacy Signature Drawn" id="privacy-signature-input">
-        <label>Date:<input type="date" name="Privacy Date" required></label>
-
-        <h3>Client Waiver - Assisted Lymphatic Therapy</h3>
-        <p>I, <input type="text" name="Waiver Name Inline" placeholder="Client's Full Name" style="width: 250px; display: inline-block;" required>, hereby acknowledge under oath that I am the Client of WholeSoul Wellness, LLC and I hereby give my permission to participate in Lymphatic Therapy, RBTI, Wellness Consultation, Shamanic sessions, and any other services offered by WholeSoul Wellness, LLC. As an integral part of such permission, I recognize that Lymphatic Therapy is a naturalist, experimental,alternative procedure whose purpose is not in diagnosing, healing, or curing; but to help promote good health and well-being. Therefore, I hereby agree to hold WholeSoul Wellness, LLC harmless from and against any and all claims,demands, liabilities, actions, causes of actions, damages and/or expenses, of any nature and kind without limitation, arising from my direct or indirect participation in any of the aforementioned therapies. I hereby acknowledge that I assume the risk of any and I will assume all damages if ever needed. I waive any cause of action that I might have at any time against WholeSoul Wellness, LLC or that I might thereafter accrue as a result of any therapeutic services. I have had an opportunity to review this waiver and ask any question concerning its meaning or intent. I verify that I have read this entire document, have had reasonable opportunity to ask questions concerning its application, understand its contents, and acknowledge that the various information provided throughout this document is accurate and complete. I further acknowledge and verify that I have full legal authority to execute this document and there are no requirements, conditions, or obligations, legal or otherwise, which would require the consent or assent of anyother person or entity.</p>
-        <label><div class="signature-line">Signed this the <input name="Waiver Day" maxlength="2" required> day of <input name="Waiver Month" required>, 20<input name="Waiver Year" maxlength="2" required></div></label>
-        <label>Signature:</label>
-        <div class="signature-wrapper">
-          <canvas id="waiver-signature-pad" width="200" height="75"></canvas>
-          <button type="button" id="clear-waiver-signature">Clear</button>
+        <div class="form-card">
+          <h3>Notice of Privacy Practices</h3>
+          <p class="legal-copy">The Department of Health and Human Services has established a “Privacy Rule” to help insure that personal health care information is protected for privacy. The Privacy Rule was also created in order to provide a standard for certain health care providers to obtain their client’s consent for uses and disclosures of health information about the client to carry out treatment, payment or health care operations. As our client, we want you to know that we respect the privacy of your personal medical records and that we will do all we can to secure and protect that privacy. We strive to always take reasonable precautions to protect your privacy. When it is appropriate and necessary, we provide the minimum necessary information to only those we feel are in need of your health care information and information about treatment, payment or health care operations, in order to provide health care that is in your best interest. We also want you to know that we support your full access to your personal medical records. We may have indirect treatment relationships with you (such as laboratories that only interact with physicians and not clients), and may have to disclose personal health information for purposes of treatment, payment or health care operations. These entities are most often not required to obtain patient consent. You may refuse to consent to the use or disclosure of your personal health information, but this must be in writing.</p>
         </div>
-        <input type="hidden" name="Waiver Signature Drawn" id="waiver-signature-input">
-        <label>Printed Name:<input name="Waiver Name" required></label>
-        <div id="form-message" style="display: none; padding: 10px; margin: 10px 0; border-radius: 5px;"></div>
-        <button type="submit" id="submit-btn">Submit Form</button>
+        <div class="form-card">
+          <h3>Privacy Acknowledgement</h3>
+          <p>I, <input class="inline-field" type="text" name="Client Name Inline" placeholder="Client's full name" required>, have received and reviewed a copy of WholeSoul Wellness Notice of Privacy Practices.</p>
+          <label>Signature of client or guardian</label>
+          <div class="signature-wrapper">
+            <canvas id="privacy-signature-pad" width="500" height="160"></canvas>
+            <button type="button" id="clear-privacy-signature">Clear</button>
+          </div>
+          <input type="hidden" name="Privacy Signature Drawn" id="privacy-signature-input">
+          <label>Date<input type="date" name="Privacy Date" required></label>
+        </div>
+        <div class="form-card">
+          <h3>Client Waiver — Assisted Lymphatic Therapy</h3>
+          <p class="legal-copy">I, <input class="inline-field" type="text" name="Waiver Name Inline" placeholder="Client's full name" required>, hereby acknowledge under oath that I am the Client of WholeSoul Wellness, LLC and I hereby give my permission to participate in Lymphatic Therapy, RBTI, Wellness Consultation, Shamanic sessions, and any other services offered by WholeSoul Wellness, LLC. As an integral part of such permission, I recognize that Lymphatic Therapy is a naturalist, experimental, alternative procedure whose purpose is not in diagnosing, healing, or curing; but to help promote good health and well-being. Therefore, I hereby agree to hold WholeSoul Wellness, LLC harmless from and against any and all claims, demands, liabilities, actions, causes of actions, damages and/or expenses, of any nature and kind without limitation, arising from my direct or indirect participation in any of the aforementioned therapies. I hereby acknowledge that I assume the risk of any and I will assume all damages if ever needed. I waive any cause of action that I might have at any time against WholeSoul Wellness, LLC or that I might thereafter accrue as a result of any therapeutic services. I have had an opportunity to review this waiver and ask any question concerning its meaning or intent. I verify that I have read this entire document, have had reasonable opportunity to ask questions concerning its application, understand its contents, and acknowledge that the various information provided throughout this document is accurate and complete. I further acknowledge and verify that I have full legal authority to execute this document and there are no requirements, conditions, or obligations, legal or otherwise, which would require the consent or assent of any other person or entity.</p>
+          <label>
+            <span class="signature-line">Signed this the <input name="Waiver Day" maxlength="2" inputmode="numeric" required> day of <input name="Waiver Month" required>, 20<input name="Waiver Year" maxlength="2" inputmode="numeric" required></span>
+          </label>
+          <label>Signature</label>
+          <div class="signature-wrapper">
+            <canvas id="waiver-signature-pad" width="500" height="160"></canvas>
+            <button type="button" id="clear-waiver-signature">Clear</button>
+          </div>
+          <input type="hidden" name="Waiver Signature Drawn" id="waiver-signature-input">
+          <label>Printed name<input name="Waiver Name" required></label>
+        </div>
+        <div id="form-message"></div>
+        <div class="form-actions">
+          <button type="submit" id="submit-btn">Submit Form</button>
+        </div>
       </form>
     </section>
   </main>
   <footer>
-    <p>📍 1600 6th Ave Suite 103, York PA, 17403 | 📞 (717) 495-6303 | ✉ wholesoulyork@gmail.com</p>
-    <p>© 2025 Wholesoul Wellness</p>
+    <p><a href="https://maps.google.com/?q=1600+6th+Ave+Suite+103+York+PA+17403">1600 6th Ave Suite 103, York PA 17403</a></p>
+    <p><a href="tel:7174956303">(717) 495-6303</a> · <a href="mailto:wholesoulyork@gmail.com">wholesoulyork@gmail.com</a></p>
+    <p>© 2026 WholeSoul Wellness</p>
   </footer>
-
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
-
-  <!--Mobile Menu-->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const toggle = document.querySelector('.menu-toggle');
-      const menu = document.querySelector('nav ul');
-      toggle.addEventListener('click', () => {
-        menu.classList.toggle('show');
-      });
-    });
-  </script>
-
-<!--  Signature Pad 10:33-->
-<script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const form = document.querySelector('form');
-
-    const clientCanvas = document.getElementById('client-signature-pad');
-    const waiverCanvas = document.getElementById('waiver-signature-pad');
-    const privacyCanvas = document.getElementById('privacy-signature-pad');
-
-    // Ensure all canvases are found before proceeding
-    if (!clientCanvas || !waiverCanvas || !privacyCanvas) {
-      console.error('One or more signature canvases could not be found.');
-      return;
-    }
-
-    const clientInput = document.getElementById('client-signature-input');
-    const waiverInput = document.getElementById('waiver-signature-input');
-    const privacyInput = document.getElementById('privacy-signature-input');
-
-    const clientPad = new SignaturePad(clientCanvas);
-    const waiverPad = new SignaturePad(waiverCanvas);
-    const privacyPad = new SignaturePad(privacyCanvas);
-
-    const viewerURL = "https://wholesoulyork.com/view-signature.html?data=";
-
-    // Use your preferred JPEG quality
-    const JPEG_QUALITY = 0.1;
-
-    // Define the maximum allowed URI length. 6000 is a good, safe upper bound.
-    const MAX_URI_LENGTH = 6000; // You can adjust this based on your testing
-
-    // Function to set white background for a canvas, drawing *behind* existing content
-    function setCanvasBackgroundToWhite(canvas) {
-      const context = canvas.getContext('2d');
-      // Store the current transformation matrix and state
-      context.save();
-      // Use the 'destination-over' compositing operation to draw behind existing content
-      // This is crucial: it paints the white rectangle *under* the drawn lines.
-      context.globalCompositeOperation = 'destination-over';
-      context.fillStyle = 'white';
-      context.fillRect(0, 0, canvas.width, canvas.height);
-      // Restore the transformation matrix and state
-      context.restore();
-    }
-
-    // Initialize canvases with a white background when the page loads
-    setCanvasBackgroundToWhite(clientCanvas);
-    setCanvasBackgroundToWhite(waiverCanvas);
-    setCanvasBackgroundToWhite(privacyCanvas);
-
-    // Override SignaturePad's clear() to also apply white background
-    const originalClientClear = clientPad.clear;
-    clientPad.clear = function() {
-      originalClientClear.call(this); // Call the original clear method
-      setCanvasBackgroundToWhite(clientCanvas); // Then apply white background
-    };
-
-    const originalWaiverClear = waiverPad.clear;
-    waiverPad.clear = function() {
-      originalWaiverClear.call(this);
-      setCanvasBackgroundToWhite(waiverCanvas);
-    };
-
-    const originalPrivacyClear = privacyPad.clear;
-    privacyPad.clear = function() {
-      originalPrivacyClear.call(this);
-      setCanvasBackgroundToWhite(privacyCanvas);
-    };
-
-    // Modified function to get signature data URL with length check
-    function getSignatureDataURL(pad, canvas, inputElement) {
-        // Ensure white background is applied before conversion
-        setCanvasBackgroundToWhite(canvas);
-
-        // Convert to JPEG with the specified quality
-        const dataURL = pad.toDataURL("image/jpeg", JPEG_QUALITY);
-        const encodedDataURL = encodeURIComponent(dataURL);
-
-        if (encodedDataURL.length > MAX_URI_LENGTH) {
-            // Clear the pad and input if too long
-            pad.clear(); // Clears drawn lines
-            setCanvasBackgroundToWhite(canvas); // Re-apply white background after clear
-            inputElement.value = ''; // Clear the hidden input value
-            return { success: false, message: "Signature Error. Please try signing again." };
-        } else {
-            return { success: true, data: viewerURL + encodedDataURL };
-        }
-    }
-
-    // Clear buttons
-    document.getElementById('clear-client-signature').addEventListener('click', () => {
-      clientPad.clear();
-      clientInput.value = '';
-    });
-
-    document.getElementById('clear-waiver-signature').addEventListener('click', () => {
-      waiverPad.clear();
-      waiverInput.value = '';
-    });
-
-    document.getElementById('clear-privacy-signature').addEventListener('click', () => {
-      privacyPad.clear();
-      privacyInput.value = '';
-    });
-
-    form.addEventListener('submit', async function (e) {
-      e.preventDefault(); // Always prevent default to handle submission manually
-
-      const submitBtn = document.getElementById('submit-btn');
-      const formMessage = document.getElementById('form-message');
-
-      // Validate signatures for emptiness
-      if (clientPad.isEmpty()) {
-        showMessage("Please provide your client signature.", "error");
-        return;
-      }
-      if (waiverPad.isEmpty()) {
-        showMessage("Please provide your waiver signature.", "error");
-        return;
-      }
-      if (privacyPad.isEmpty()) {
-        showMessage("Please provide your privacy signature.", "error");
-        return;
-      }
-
-      let signaturesValid = true; // Flag to track overall signature validity
-
-      // Process Client Signature
-      const clientSignatureResult = getSignatureDataURL(clientPad, clientCanvas, clientInput);
-      if (clientSignatureResult.success) {
-          clientInput.value = clientSignatureResult.data;
-      } else {
-          showMessage(clientSignatureResult.message, "error");
-          signaturesValid = false;
-      }
-
-      // Process Waiver Signature
-      const waiverSignatureResult = getSignatureDataURL(waiverPad, waiverCanvas, waiverInput);
-      if (waiverSignatureResult.success) {
-          waiverInput.value = waiverSignatureResult.data;
-      } else {
-          if (signaturesValid) {
-              showMessage(waiverSignatureResult.message, "error");
-          }
-          signaturesValid = false;
-      }
-
-      // Process Privacy Signature
-      const privacySignatureResult = getSignatureDataURL(privacyPad, privacyCanvas, privacyInput);
-      if (privacySignatureResult.success) {
-          privacyInput.value = privacySignatureResult.data;
-      } else {
-          if (signaturesValid) {
-              showMessage(privacySignatureResult.message, "error");
-          }
-          signaturesValid = false;
-      }
-
-      // If any signature failed the length check, stop form submission
-      if (!signaturesValid) {
-          return;
-      }
-
-      // Normalize phone/ZIP fields
-      ['cellPhone', 'homePhone', 'emergencyPhone', 'zip'].forEach(id => {
-        const input = document.getElementById(id);
-        if (input) input.value = input.value.replace(/\D/g, '');
-      });
-
-      // Disable submit button and show loading state
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Submitting...";
-
-      try {
-        const formData = new FormData(form);
-        // Convert FormData to JSON object
-        const jsonData = {};
-        formData.forEach((value, key) => {
-          jsonData[key] = value;
-        });
-
-        const response = await fetch(form.action, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(jsonData)
-        });
-
-        const data = await response.json();
-
-        if (data.success) {
-          // Success - redirect to thank you page
-          window.location.href = "thank-you.html";
-        } else {
-          // Show error message
-          showMessage("Error: " + (data.message || "Failed to submit form. Please try again."), "error");
-          submitBtn.disabled = false;
-          submitBtn.textContent = "Submit Form";
-        }
-      } catch (error) {
-        showMessage("Network error. Please check your connection and try again.", "error");
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Submit Form";
-      }
-    });
-
-    // Helper function to show messages
-    function showMessage(message, type) {
-      const formMessage = document.getElementById('form-message');
-      formMessage.textContent = message;
-      formMessage.style.display = 'block';
-      formMessage.style.backgroundColor = type === 'error' ? '#ffebee' : '#e8f5e9';
-      formMessage.style.color = type === 'error' ? '#c62828' : '#2e7d32';
-      formMessage.style.border = type === 'error' ? '1px solid #ef5350' : '1px solid #66bb6a';
-
-      // Scroll to message
-      formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-  });
-</script>
-  
+  <script src="js/nav.js"></script>
+  <script src="js/form.js"></script>
 </body>
-
 </html>
