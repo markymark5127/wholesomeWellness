@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2a7f5f">
-  <title>WholeSoul Wellness</title>
-  <link rel="stylesheet" href="styles/main.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="description" content="WholeSoul Wellness in York, PA offers Assisted Lymphatic Therapy with the XP2 device.">
+  <title>WholeSoul Wellness | York, PA</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="main-header">
-    <nav>
-      <img src="assets/logo.png" alt="WholeSoul Wellness Logo" class="logo"/>
-      <button class="menu-toggle">☰</button>
-      <ul>
-        <li><a href="index.html">Home</a></li>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="" class="logo">
+        <span class="site-name">WholeSoul Wellness</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html" aria-current="page">Home</a></li>
         <li><a href="alt.html">ALT Info</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="about.html">About Me</a></li>
@@ -23,38 +28,39 @@
         <li><a href="legal-form.html">Client Form</a></li>
       </ul>
     </nav>
-    <div class="hero">
-      <img alt="WholeSoul Wellness Full Logo" class="hero-bg-logo" src="assets/logo.png" style="opacity: 0.37; max-width: 70%;"/>
+  </header>
+
+  <section class="hero">
+    <img class="hero-bg-logo" src="assets/logo.png" alt="">
+    <div class="hero-content">
       <h1>WholeSoul Wellness</h1>
       <p>All healing occurs when the conditions are right</p>
       <a href="book.html" class="cta">Book Now</a>
     </div>
-  </header>
+  </section>
+
   <main>
     <section class="intro">
       <h2>Welcome</h2>
       <p>WholeSoul Wellness is one of only two practices in Pennsylvania offering Assisted Lymphatic Therapy with the advanced XP2 device — a gentle, non-invasive technique supporting your journey to wellness in York, PA.</p>
     </section>
+
     <div class="feature-device">
-      <img src="assets/altDevice.jpg" alt="ALT Device">
-      <p>The XP2 device used in Assisted Lymphatic Therapy – gentle, effective healing technology.</p>
+      <img src="assets/altDevice.jpg" alt="XP2 Assisted Lymphatic Therapy device" loading="lazy">
+      <p>The XP2 device used in Assisted Lymphatic Therapy — gentle, effective healing technology.</p>
     </div>
+
     <section class="reviews">
-      <!-- Elfsight Google Reviews | WholeSoul Google Reviews -->
       <script src="https://static.elfsight.com/platform/platform.js" async></script>
       <div class="elfsight-app-ba26364d-6118-4991-a2d1-f54534c3f5cb" data-elfsight-app-lazy></div>
     </section>
   </main>
+
   <footer>
-    <p>📍 1600 6th Ave Suite 103, York PA, 17403 | 📞 (717) 495-6303 | ✉ wholesoulyork@gmail.com</p>
-    <p>© 2025 WholeSoul Wellness</p>
+    <p><a href="https://maps.google.com/?q=1600+6th+Ave+Suite+103+York+PA+17403">1600 6th Ave Suite 103, York PA 17403</a></p>
+    <p><a href="tel:7174956303">(717) 495-6303</a> · <a href="mailto:wholesoulyork@gmail.com">wholesoulyork@gmail.com</a></p>
+    <p>© 2026 WholeSoul Wellness</p>
   </footer>
-  <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const menu = document.querySelector('nav ul');
-    toggle.addEventListener('click', () => {
-      menu.classList.toggle('show');
-    });
-  </script>
+  <script src="js/nav.js"></script>
 </body>
 </html>
