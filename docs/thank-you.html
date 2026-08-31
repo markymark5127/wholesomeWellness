@@ -3,42 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Thank You - WholeSoul Wellness</title>
+  <meta name="theme-color" content="#2a7f5f">
+  <title>Thank You | WholeSoul Wellness</title>
+  <link rel="icon" href="assets/logo.png">
   <link rel="stylesheet" href="styles/main.css">
-  <style>
-    .thank-you {
-      max-width: 600px;
-      margin: 100px auto;
-      text-align: center;
-      padding: 40px;
-      background: #f0f9f5;
-      border-left: 5px solid #2a7f5f;
-      border-radius: 8px;
-    }
-    .thank-you h1 {
-      color: #2a7f5f;
-      font-size: 2em;
-    }
-    .thank-you p {
-      margin-top: 20px;
-    }
-    .thank-you a {
-      display: inline-block;
-      margin-top: 30px;
-      background: #2a7f5f;
-      color: white;
-      padding: 12px 24px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="" class="logo">
+        <span class="site-name">WholeSoul Wellness</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="alt.html">ALT Info</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About Me</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="book.html">Book</a></li>
+        <li><a href="legal-form.html">Client Form</a></li>
+      </ul>
+    </nav>
+  </header>
   <section class="thank-you">
-    <h1>Thank You!</h1>
+    <h1>Thank You</h1>
     <p>Your form was successfully submitted. We’ll be in touch shortly.</p>
-    <a href="index.html">Back to Home</a>
+    <a class="cta" href="index.html">Back to Home</a>
   </section>
+  <script src="js/nav.js"></script>
 </body>
 </html>

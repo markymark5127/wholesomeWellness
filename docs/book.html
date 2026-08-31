@@ -1,58 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#2a7f5f">
-  <title>Book Appointment - WholeSoul Wellness</title>
-  <link rel="stylesheet" href="styles/main.css" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>Book Appointment | WholeSoul Wellness</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <header class="main-header">
-
-    <nav>
-      <div class="brand-wrapper"><img src="assets/logo.png" alt="WholeSoul Wellness Logo" class="logo"/><span class="site-name">WholeSoul Wellness</span></div>
-      <button class="menu-toggle">☰</button>
-      <ul>
+  <header class="site-header">
+    <nav class="nav" aria-label="Primary">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.png" alt="" class="logo">
+        <span class="site-name">WholeSoul Wellness</span>
+      </a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+      <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="alt.html">ALT Info</a></li>
         <li><a href="services.html">Services</a></li>
         <li><a href="about.html">About Me</a></li>
         <li><a href="contact.html">Contact</a></li>
-        <li><a href="book.html">Book</a></li>
+        <li><a href="book.html" aria-current="page">Book</a></li>
         <li><a href="legal-form.html">Client Form</a></li>
       </ul>
     </nav>
   </header>
+
   <main>
     <section class="intro">
-      <h2>Book an Appointment</h2>
-      <p>Select a time that works for you using the calendar below. Your appointment will be confirmed via email.</p>
-      <p><strong>Important:</strong> If this is your first appointment, please also complete the form below before your visit.</p>
-      <a href="legal-form.html" class="form-link-button">Fill Out Client Form</a>
-      <iframe src="https://calendly.com/wholesoulyork" width="100%" height="600" frameborder="0"></iframe>
-      <!--<div class="payment-info">
-        <h3>Payment Methods</h3>
-        <p>You can pay for your session via:</p>
-        <ul>
-          <li>💸 <strong>Venmo:</strong> <code>@WholeSoulYork</code></li>
-          <li>💵 <strong>Cash App:</strong> <code>$WholeSoulYork</code></li>
-        </ul>
-        <p>Please include your name and appointment date in the payment note.</p>
-      </div>-->
+      <h1>Book an Appointment</h1>
+      <div class="book-card">
+        <p>Select a time that works for you using the calendar below. Your appointment will be confirmed via email.</p>
+        <p><strong>First visit?</strong> Please complete the client form before you come in.</p>
+        <p><a href="legal-form.html" class="form-link-button">Fill Out Client Form</a></p>
+        <iframe class="calendar-embed" title="Book with Calendly" src="https://calendly.com/wholesoulyork"></iframe>
+      </div>
     </section>
   </main>
+
   <footer>
-    <p>📍 1600 6th Ave Suite 103, York PA, 17403 | 📞 (717) 495-6303 | ✉ wholesoulyork@gmail.com</p>
-    <p>© 2025 WholeSoul Wellness</p>
+    <p><a href="https://maps.google.com/?q=1600+6th+Ave+Suite+103+York+PA+17403">1600 6th Ave Suite 103, York PA 17403</a></p>
+    <p><a href="tel:7174956303">(717) 495-6303</a> · <a href="mailto:wholesoulyork@gmail.com">wholesoulyork@gmail.com</a></p>
+    <p>© 2026 WholeSoul Wellness</p>
   </footer>
-  <script>
-    const toggle = document.querySelector('.menu-toggle');
-    const menu = document.querySelector('nav ul');
-    toggle.addEventListener('click', () => {
-      menu.classList.toggle('show');
-    });
-  </script>
+  <script src="js/nav.js"></script>
 </body>
 </html>

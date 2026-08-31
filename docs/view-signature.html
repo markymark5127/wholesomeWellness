@@ -1,27 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>View Signature</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 2rem;
-    }
-    img {
-      max-width: 100%;
-      height: auto;
-      border: 2px solid #444;
-      margin-top: 1rem;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>View Signature | WholeSoul Wellness</title>
+  <link rel="icon" href="assets/logo.png">
+  <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
-  <h1>Signature Image</h1>
-  <p>Below is the submitted signature:</p>
-  <img id="signatureImage" alt="Signature not available"/>
+  <main class="intro">
+    <h1>Signature</h1>
+    <p>Below is the submitted signature.</p>
+    <img id="signatureImage" alt="Signature not available" style="margin:24px auto;border:1px solid #d7e4dd;border-radius:8px;background:#fff;">
+  </main>
   <script>
     const params = new URLSearchParams(window.location.search);
     const data = params.get("data");
