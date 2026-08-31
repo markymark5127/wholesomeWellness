@@ -3,9 +3,9 @@ document.addEventListener("DOMContentLoaded", function () {
   if (!form || typeof SignaturePad === "undefined") return;
 
   var setups = [
-    { canvas: "client-signature-pad", input: "client-signature-input", clear: "clear-client-signature", label: "client signature", file: "client-signature.jpg" },
-    { canvas: "privacy-signature-pad", input: "privacy-signature-input", clear: "clear-privacy-signature", label: "privacy signature", file: "privacy-signature.jpg" },
-    { canvas: "waiver-signature-pad", input: "waiver-signature-input", clear: "clear-waiver-signature", label: "waiver signature", file: "waiver-signature.jpg" }
+    { canvas: "client-signature-pad", input: "client-signature-input", clear: "clear-client-signature", label: "client signature" },
+    { canvas: "privacy-signature-pad", input: "privacy-signature-input", clear: "clear-privacy-signature", label: "privacy signature" },
+    { canvas: "waiver-signature-pad", input: "waiver-signature-input", clear: "clear-waiver-signature", label: "waiver signature" }
   ];
 
   function resizeCanvas(canvas, pad) {
@@ -40,13 +40,7 @@ document.addEventListener("DOMContentLoaded", function () {
         input.value = "";
       });
     }
-    return {
-      pad: pad,
-      canvas: canvas,
-      input: input,
-      label: item.label,
-      file: item.file
-    };
+    return { pad: pad, canvas: canvas, input: input, label: item.label };
   }).filter(Boolean);
 
   var resizeTimer;
@@ -69,21 +63,42 @@ document.addEventListener("DOMContentLoaded", function () {
     box.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
-  function signatureBlob(pad) {
-    return new Promise(function (resolve, reject) {
-      var source = pad.canvas;
-      var exportCanvas = document.createElement("canvas");
-      exportCanvas.width = 400;
-      exportCanvas.height = 140;
-      var ctx = exportCanvas.getContext("2d");
-      ctx.fillStyle = "#ffffff";
-      ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
-      ctx.drawImage(source, 0, 0, exportCanvas.width, exportCanvas.height);
-      exportCanvas.toBlob(function (blob) {
-        if (!blob) reject(new Error("Could not save signature"));
-        else resolve(blob);
-      }, "image/jpeg", 0.45);
+  function accepted(response, data) {
+    if (!response || !response.ok) return false;
+    if (data.success === false || data.success === "false") return false;
+    return true;
+  }
+
+  function buildPayload() {
+    var payload = {
+      _subject: "New Client Intake Form - WholeSoul Wellness",
+      _template: "table",
+      _captcha: "false",
+      "Client signature captured": "Yes",
+      "Privacy signature captured": "Yes",
+      "Waiver signature captured": "Yes"
+    };
+
+    new FormData(form).forEach(function (value, key) {
+      if (typeof File !== "undefined" && value instanceof File) return;
+      if (key.indexOf("Signature Drawn") !== -1) return;
+      if (typeof value === "string" && value.trim()) payload[key] = value;
     });
+
+    return payload;
+  }
+
+  async function sendToFormSubmit(payload) {
+    var response = await fetch("https://formsubmit.co/ajax/wholesoulyork@gmail.com", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+    var data = await response.json().catch(function () { return {}; });
+    return { response: response, data: data };
   }
 
   form.addEventListener("submit", async function (e) {
@@ -101,58 +116,20 @@ document.addEventListener("DOMContentLoaded", function () {
       if (field) field.value = field.value.replace(/\D/g, "");
     });
 
-    var fileInput = form.querySelector('input[type="file"]');
-    var files = fileInput && fileInput.files ? Array.from(fileInput.files) : [];
-    var oversized = files.find(function (file) { return file.size > 2 * 1024 * 1024; });
-    if (oversized) {
-      showMessage("Each attachment must be 2MB or smaller.", "error");
-      return;
-    }
-
     submitBtn.disabled = true;
     submitBtn.textContent = "Submitting...";
 
     try {
-      var blobs = await Promise.all(pads.map(function (item) {
-        return signatureBlob(item.pad);
-      }));
-
-      var formData = new FormData();
-      formData.append("_subject", "New Client Intake Form - WholeSoul Wellness");
-      formData.append("_template", "table");
-      formData.append("_captcha", "false");
-
-      new FormData(form).forEach(function (value, key) {
-        if (typeof File !== "undefined" && value instanceof File) return;
-        if (key.indexOf("Signature Drawn") !== -1) return;
-        if (typeof value === "string" && value.trim() !== "") {
-          formData.append(key, value);
-        }
-      });
-
-      pads.forEach(function (item, index) {
-        formData.append(item.file.replace(".jpg", ""), blobs[index], item.file);
-      });
-
-      files.forEach(function (file) {
-        formData.append("attachment_" + file.name, file, file.name);
-      });
-
-      var response = await fetch("https://formsubmit.co/ajax/wholesoulyork@gmail.com", {
-        method: "POST",
-        headers: { Accept: "application/json" },
-        body: formData
-      });
-
-      var data = await response.json().catch(function () { return {}; });
-      if (response.ok && data.success !== false) {
+      var result = await sendToFormSubmit(buildPayload());
+      if (accepted(result.response, result.data)) {
         window.location.href = "thank-you.html";
         return;
       }
 
-      throw new Error(data.message || "FormSubmit did not accept the form");
+      var message = result.data.message || "FormSubmit did not accept the form.";
+      throw new Error(message);
     } catch (err) {
-      showMessage((err && err.message ? err.message : "Submit failed") + " If this is the first test, check wholesoulyork@gmail.com (and spam) for a FormSubmit confirmation link.", "error");
+      showMessage((err && err.message ? err.message : "Submit failed") + " Check wholesoulyork@gmail.com (and spam) for a FormSubmit confirmation email if this is the first test.", "error");
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit Form";
     }
